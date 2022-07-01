@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-
+from .Command import *
 class Shell:
-    
+    cmds = {}
     def setPrompt(self,prompt = '>'):
         self.prompt = prompt
     
@@ -35,8 +35,9 @@ class Shell:
         self.shellLoop()
 
     def registerCommands(self,cmds):
-        self.cmds = cmds
-        print(cmds)
+        for cmd in cmds:
+            self.cmds[cmd] = cmds[cmd]
+            self.cmds[cmd].shell = self
 
     def getCmd(self):
         return input("{}".format(self.prompt))
@@ -53,9 +54,9 @@ class Shell:
 
 if __name__ == '__main__':
     cmds = {
-        'exit':lambda self : self.shell.stop(),
-        'quit':lambda self : self.shell.stop(),
-        'pymod':lambda self,name=5 : print(self.shell)
+        'exit':Command('exit',lambda self : self.shell.stop()),
+        'quit':Command('quit',lambda self : self.shell.stop()),
+        'pymod':Command('pymod',lambda self,name=5 : print(self.shell))
     }
     shell = Shell(cmds)
     shell.loop()
