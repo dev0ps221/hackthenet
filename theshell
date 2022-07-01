@@ -5,9 +5,9 @@ from core.classes.Shell import Shell
 
 if __name__ == '__main__':
     cmds = {
-        'exit':lambda shell : shell.stop(),
-        'quit':lambda shell : shell.stop(),
-        'aboutshell':lambda shell,name=5 : print(shell)
+        'exit':Command('exit',lambda self : self.shell.stop()),
+        'quit':Command('quit',lambda self : self.shell.stop()),
+        'pymod':Command('pymod',lambda self,name=5 : print(self.shell))
     }
     shell = Shell(cmds)
     shell.loop()
