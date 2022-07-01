@@ -17,6 +17,16 @@ class Shell:
             else:  
                 print('Commande Inconnue')
                 
+
+    def avail_commands(self):
+        comms = ""
+        for key in self.cmds.keys():
+            comms += "\n\t{}".format(key)
+        return comms
+
+    def __str__(self):
+        return (f"Shell object for {self.mod} \n Available Commands:{ self.avail_commands() }")
+
     def stop(self):
         self.run = False
 
@@ -27,9 +37,10 @@ class Shell:
     def getCmd(self):
         return input("{}".format(self.prompt))
 
-    def __init__(self,cmds={}):
+    def __init__(self,cmds={},mod='no module'):
         self.run = False
         self.cmds = cmds
+        self.mod = mod
         self.setPrompt()
 
 

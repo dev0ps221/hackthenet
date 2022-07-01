@@ -7,7 +7,7 @@ if __name__ == '__main__':
     cmds = {
         'exit':lambda shell : shell.stop(),
         'quit':lambda shell : shell.stop(),
-        'pymod':lambda shell,name=5 : print(shell)
+        'aboutshell':lambda shell,name=5 : print(shell)
     }
     shell = Shell(cmds)
     shell.loop()
