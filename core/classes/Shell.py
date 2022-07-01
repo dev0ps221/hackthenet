@@ -34,12 +34,16 @@ class Shell:
         self.run = True
         self.shellLoop()
 
+    def registerCommands(self,cmds):
+        self.cmds = cmds
+        print(cmds)
+
     def getCmd(self):
         return input("{}".format(self.prompt))
 
     def __init__(self,cmds={},mod='no module'):
         self.run = False
-        self.cmds = cmds
+        self.registerCommands(cmds)
         self.mod = mod
         self.setPrompt()
 
@@ -49,9 +53,9 @@ class Shell:
 
 if __name__ == '__main__':
     cmds = {
-        'exit':lambda shell : shell.stop(),
-        'quit':lambda shell : shell.stop(),
-        'pymod':lambda shell,name=5 : print(shell)
+        'exit':lambda self : self.shell.stop(),
+        'quit':lambda self : self.shell.stop(),
+        'pymod':lambda self,name=5 : print(self.shell)
     }
     shell = Shell(cmds)
     shell.loop()
