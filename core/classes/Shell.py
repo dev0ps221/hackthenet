@@ -12,8 +12,7 @@ class Shell:
             # print(self.cmds.__contains__(cmd))
             command = self.cmds.get(cmd)
             if command != None:
-                print(type(command) == type(lambda x:x))
-                if type(command) == type(lambda x:x):
+                if type(command) == Command:
                     command.run(self)
                     print(command)
                     print('is command')
