@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from core.classes.Shell import Shell
+from core.classes.Shell import Shell,Command
 
 
 if __name__ == '__main__':
