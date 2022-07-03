@@ -2,12 +2,10 @@
 class Command:
 
 
-    def run(self,args):
-        print(self.action,' is command')
-        self.action(args)
+    def run(self,args=None):
+        self.action(self)
 
     def __init__(self,name,func):
-        print('command created')
         self.name = name 
         self.action = func
 

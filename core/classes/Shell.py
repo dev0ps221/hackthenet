@@ -13,9 +13,7 @@ class Shell:
             command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
-                    command.run(self)
-                    print(command)
-                    print('is command')
+                    command.run()
             else:  
                 print('Commande Inconnue')
                 
