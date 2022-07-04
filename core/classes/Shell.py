@@ -30,7 +30,7 @@ def list(self,_type=None):
                 types = types_sep.join(data)
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
             else:
-                ret = "what were you thinking about ?
+                ret = "what were you thinking about ?"
         elif self.shell.mod != 'nomod' and _type in self.shell.mod.config:
             types = types_sep.join(self.shell.mod.config[_type])
             ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
@@ -70,13 +70,24 @@ def _help(command,arg=None):
         cmd = command.shell.cmds.get(arg)
         if cmd != None:
             if type(cmd) == Command:
-                result = cmd.help()
+                return cmd.help()
             else:
-                command.help()
+                return (command.help())
         else:
-            command.help()
+            if arg in modules:
+                if command.shell.mod != 'nomod' and command.shell.mod.arg == arg:
+                    return "module already loaded"
+                insert(0, here+'/../mods')
+                mod = (getattr(__import__(arg, where_mods_are),(arg[0].upper()+arg[1:])))
+                if(mod):
+                    _module = mod() 
+                    return _module.help()
+                else:
+                    return (command.help())
+            else:
+                return (command.help())
     else:
-        command.help()
+        return (command.help())
         
 
 def _exit(command):
