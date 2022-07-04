@@ -30,11 +30,17 @@ def list(self,_type=None):
             ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
         elif _type in self.shell.config:
             data = self.shell.config[_type]
-            if (type(data) is type([])) or (type(data) is type({})):
+            if (type(data) is type([])):
                 types = types_sep.join(data)
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+
+            elif(type(data) is type({})):
+                types = types_sep.join(data)
+                ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+
             else:
                 ret = "what were you thinking about ?"
+
         elif hasattr(self.shell,_type):
             data = getattr(self.shell,_type)
             if type(data) in [list,dict]:
@@ -42,16 +48,21 @@ def list(self,_type=None):
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
             else:
                 ret = "what were you thinking about ?"
-        if _type in globals():
+
+        elif _type in globals():
             data = globals()[_type]
             if type(data) in [list,dict]:
                 types = types_sep.join(data)
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
             else:
                 ret = "what were you thinking about ?"
+
         else :
             ret = "no match found"
+
         return ret
+
+
     else:
         return self.show_usage()
 
