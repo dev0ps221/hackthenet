@@ -1,5 +1,9 @@
-from Shell import *
 
+if __name__ == 'Module':
+    from Shell import *
+else:
+    from core.classes.Shell import *
+    
 class Module:
 
 

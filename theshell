@@ -2,6 +2,7 @@
 
 from core.classes.Shell import Shell,Command
 
+
 if __name__ == '__main__':
     shell = Shell()
     shell.loop()

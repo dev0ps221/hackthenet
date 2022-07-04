@@ -3,8 +3,11 @@ from sys import path
 insert = path.insert
   
 insert(0, getcwd()+'/../classes')
-from Module import *
 
+if __name__ == '__main__':
+    from Module import *
+else:
+    from core.classes.Module import *
 
 
 class Discover (Module):
