@@ -64,5 +64,5 @@ if __name__ == '__main__':
     shell = Shell()
     shell.addCommand('exit',Command('exit',lambda self : self.shell.stop()))
     shell.addCommand('quit',Command('quit',lambda self : self.shell.stop()))
-    shell.addCommand('pymod',Command('pymod',lambda self,name=5 : print(self.shell)))
+    shell.addCommand('pymod',Command('pymod',lambda self,name : print(self.shell if not name else "module {}".format(name))))
     shell.loop()
