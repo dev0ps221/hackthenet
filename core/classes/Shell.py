@@ -8,10 +8,10 @@ class Shell:
     
     def shellLoop(self):
         while self.run == True:
-            cmd = self.getCmd()
-            # print(self.cmds.__contains__(cmd))
-            command,args = self.cmds.get(cmd)
+            cmd,args = self.getCmd()
             print("arguments commande {}".format(args))
+            # print(self.cmds.__contains__(cmd))
+            command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
                     command.run()
