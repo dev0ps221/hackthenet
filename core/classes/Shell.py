@@ -9,7 +9,6 @@ class Shell:
     def shellLoop(self):
         while self.run == True:
             cmd,args = self.getCmd()
-            # print(self.cmds.__contains__(cmd))
             command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
@@ -51,7 +50,7 @@ class Shell:
     def getCmd(self):
         return self.parseInput(input("{}".format(self.prompt)))
 
-    def __init__(self,cmds={},mod='no module'):
+    def __init__(self,cmds={},mod='nomod'):
         self.run = False
         self.registerCommands(cmds)
         self.mod = mod
