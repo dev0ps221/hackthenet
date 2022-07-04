@@ -54,9 +54,9 @@ def load(self,name=None) :
 def ifaces(self):
     return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
 
-def _help(command,arg):
+def _help(command,arg=None):
     if arg:
-        cmd = self.cmds.get(arg)
+        cmd = command.shell.cmds.get(arg)
         if cmd != None:
             if type(cmd) == Command:
                 result = cmd.help()
