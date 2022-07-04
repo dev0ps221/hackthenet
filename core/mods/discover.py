@@ -8,8 +8,8 @@ from Module import *
 
 
 class Discover (Module):
-    def __init__(self,name):
-        Module.__init__(self,name='discover')
+    def __init__(self,name='discover'):
+        Module.__init__(self,name)
 
 
 

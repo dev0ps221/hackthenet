@@ -17,7 +17,7 @@ class Command:
     
 
     def run(self,*args):
-        return self.action(self,*args)
+        return self.action(self,*args) if len(args) else self.action(self)
 
     def __init__(self,name,func,desc=None,usage=None):
         self.name = name 

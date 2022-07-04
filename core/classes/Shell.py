@@ -26,13 +26,13 @@ shellCmds = [
 
 class Shell:
     cmds = {}
-    def setPrompt(self,prompt = '>'):
+    def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     
     def shellLoop(self):
         while self.run == True:
             cmd,args = self.getCmd()
-            self.process_cmd(cmd,args)
+            self.process_cmd(cmd,*args)
     
     def process_cmd(self,cmd,*args):
         command = self.cmds.get(cmd)
@@ -41,10 +41,11 @@ class Shell:
                 result = command.run(*args)
         else:  
             result =  'Commande Inconnue'
-        self.process_results(result)
+        self.process_results(command,result)
 
-    def process_results(self,result):
-        print(result)
+    def process_results(self,cmd,result):
+        print(result) if cmd and cmd.name not in 'quit|exit' else print(result) if not cmd else None 
+        
 
     def avail_commands(self):
         comms = ""
@@ -53,7 +54,7 @@ class Shell:
         return comms
 
     def __str__(self):
-        return (f"Shell object for {self.mod} \n Available Commands:{ self.avail_commands() }")
+        return (f"Shell object for { f'module >=@> {self.mod.name}' if self.mod != 'nomod' else self.mod } \n Available Commands:{ self.avail_commands() }")
 
     def stop(self):
         self.run = False

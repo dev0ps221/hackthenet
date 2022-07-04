@@ -47,6 +47,7 @@ class Module:
 
     def initialize_shell(self):
         self.shell = Shell({},self)
+        self.shell.setPrompt(f"{self.name}@{self.shell.prompt}")
 
     def next_target(self):
         idx,target = self.actual_target
