@@ -8,8 +8,8 @@ class Command:
         return ret
     def help(self):
         print(self.descript())
-        print(self.usage())
-    def usage(self):
+        print(self.show_usage())
+    def show_usage(self):
         ret = ('Utilisation')
         ret+=(f"\t{self.usage if self.usage else 'NON DOCUMENTÉ !!'}")
         return ret

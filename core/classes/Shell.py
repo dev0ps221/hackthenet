@@ -28,7 +28,7 @@ def load(self,name=None) :
                 _module = mod() 
                 return _module.shell.loop()
     else:
-        return self.usage()
+        return self.show_usage()
 
 
 def ifaces(self):
@@ -36,7 +36,7 @@ def ifaces(self):
 
 def _exit(self):
     self.shell.stop()
-    if(self.mod=='nomod'):
+    if(self.shell.mod=='nomod'):
         exit(1)
 
 shellCmds = [
@@ -44,7 +44,7 @@ shellCmds = [
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['pymod',Command('pymod',pymod)],
-    ['load',Command('load',load,'loads a module and switch to its shell','ex:\nload modulename')],
+    ['load',Command('load',load,'loads a module and switch to its shell','\n\t\tload modulename')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
@@ -68,7 +68,7 @@ class Shell:
         self.process_results(command,result)
 
     def process_results(self,cmd,result):
-        print(result) if cmd and cmd.name not in 'quit|exit' else print(result) if not cmd else None 
+        print(result) if cmd and cmd.name not in 'quit|exit' and type(result) != bool  else print(result) if not cmd else None 
         
 
     def avail_commands(self):
@@ -86,6 +86,7 @@ class Shell:
     def loop(self):
         self.run = True
         self.shellLoop()
+        return True
 
     def registerCommands(self,cmds):
         for cmd in cmds:
