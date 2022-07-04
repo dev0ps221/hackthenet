@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 from pcapy import findalldevs
 from os import system
-from Command import *
+if __name__ == 'Shell':
+    from Command import *
+else :
+    from .Command import *
 
 def clear():
     system('clear')
