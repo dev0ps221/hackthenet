@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 from pcapy import findalldevs
 from os import system
-from .Command import *
+from Command import *
 
 def clear():
     system('clear')
 
 
 def pymod(self,name=None) :
-    print('he')
     return self.shell if not name else "module {}".format(name)
 
 def ifaces(self):
@@ -33,15 +32,17 @@ class Shell:
     def shellLoop(self):
         while self.run == True:
             cmd,args = self.getCmd()
-            command = self.cmds.get(cmd)
-            if command != None:
-                if type(command) == Command:
-                    print(command)
-                    result = command.run(*args)
-            else:  
-                result =  'Commande Inconnue'
-            self.process_results(result)
-                
+            self.process_cmd(cmd,args)
+    
+    def process_cmd(self,cmd,*args):
+        command = self.cmds.get(cmd)
+        if command != None:
+            if type(command) == Command:
+                result = command.run(*args)
+        else:  
+            result =  'Commande Inconnue'
+        self.process_results(result)
+
     def process_results(self,result):
         print(result)
 

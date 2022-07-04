@@ -17,7 +17,7 @@ class Command:
     
 
     def run(self,*args):
-        self.action(self,*args)
+        return self.action(self,*args)
 
     def __init__(self,name,func,desc=None,usage=None):
         self.name = name 
