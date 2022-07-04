@@ -10,7 +10,8 @@ class Shell:
         while self.run == True:
             cmd = self.getCmd()
             # print(self.cmds.__contains__(cmd))
-            command = self.cmds.get(cmd)
+            command,args = self.cmds.get(cmd)
+            print("arguments commande {}".format(args))
             if command != None:
                 if type(command) == Command:
                     command.run()
@@ -42,8 +43,14 @@ class Shell:
         self.cmds[cmd] = func
         self.cmds[cmd].shell = self
 
+    def parseInput(self,data):
+        datalist = data.split(' ')
+        cmd = datalist[0]
+        args = datalist[1:len(datalist)-1]
+        return cmd,args
+
     def getCmd(self):
-        return input("{}".format(self.prompt))
+        return self.parseInput(input("{}".format(self.prompt)))
 
     def __init__(self,cmds={},mod='no module'):
         self.run = False
