@@ -20,6 +20,17 @@ def clear(self):
 def pymod(self,name=None) :
     return self.shell if not name else "module {}".format(name)
 
+def list(self,_type=None):
+    if _type:
+        if _type in self.shell.available_types:
+            types_pre = '*-'
+            types_sep = '\n'+types_pre
+            types = types_sep.join(globals()[_type])
+            return f"{types_pre}{types}"
+    else:
+        return self.show_usage()
+
+
 def load(self,name=None) :
     if name :
         if name in modules:
@@ -49,12 +60,14 @@ shellCmds = [
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['pymod',Command('pymod',pymod)],
-    ['load',Command('load',load,'loads a module and switch to its shell','\n\t\tload modulename')],
+    ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
+    ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\navailable types:\n\t*-modules')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
 class Shell:
     cmds = {}
+    available_types = ['modules']
     def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     
