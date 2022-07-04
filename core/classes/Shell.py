@@ -54,6 +54,20 @@ def load(self,name=None) :
 def ifaces(self):
     return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
 
+def _help(command,arg):
+    if arg:
+        cmd = self.cmds.get(arg)
+        if cmd != None:
+            if type(cmd) == Command:
+                result = cmd.help()
+            else:
+                command.help()
+        else:
+            command.help()
+    else:
+        command.help()
+        
+
 def _exit(command):
     command.shell.stop()
     if(command.shell.mod=='nomod'):
@@ -65,7 +79,7 @@ shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
-    ['help',Command('help',_help,'shows help')],
+    ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
     ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\navailable types:\n\t*-modules')],
