@@ -4,25 +4,31 @@ class Module:
     actual_target = (-1,None)
     actions = {}
 
+
     def runAction(self,func):
         def action(*args):
             return func(self,*args)
         return action
 
+
     def register_action(self,name,func):
         self.actions[name] = self.runAction(func)
+
 
     def _targets(self):
         return self.config['targets']
 
+
     def add_target(self,target):
         self.config['targets'].append(target)
-    
+
+
     def remove_target(self,target):
         self.config['targets'] = []
         for tgt in self._targets:
             self.add_target(tgt) if tgt != target
         return self._targets()
+
 
     def next_target(self):
         idx,target = self.actual_target
@@ -34,7 +40,13 @@ class Module:
             self.actual_target = -1,None
         return self.actual_target[1]
 
+
+    def actual_target(self):
+        return self._targets()[self.actual_target[0]] if self.actual_target[0] >= 0 else None
+
+
     def __init__(self,name,config={targets:[]}):
         self.name = name
         self.config = config
-        
+
+
