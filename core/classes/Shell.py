@@ -24,18 +24,26 @@ def list(self,_type=None):
     if _type:
         types_pre = '*-'
         types_sep = '\n'+types_pre
-        if _type in globals():
-            data = globals()[_type]
+        
+        if self.shell.mod != 'nomod' and _type in self.shell.mod.config:
+            types = types_sep.join(self.shell.mod.config[_type])
+            ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+        elif _type in self.shell.config:
+            data = self.shell.config[_type]
+            if (type(data) is type([])) or (type(data) is type({})):
+                types = types_sep.join(data)
+                ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+            else:
+                ret = "what were you thinking about ?"
+        elif hasattr(self.shell,_type):
+            data = getattr(self.shell,_type)
             if type(data) in [list,dict]:
                 types = types_sep.join(data)
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
             else:
                 ret = "what were you thinking about ?"
-        elif self.shell.mod != 'nomod' and _type in self.shell.mod.config:
-            types = types_sep.join(self.shell.mod.config[_type])
-            ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
-        elif hasattr(self.shell,_type):
-            data = getattr(self.shell,_type)
+        if _type in globals():
+            data = globals()[_type]
             if type(data) in [list,dict]:
                 types = types_sep.join(data)
                 ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
@@ -183,7 +191,7 @@ class Shell:
         self.mod = mod
         self.setPrompt()
         self.config = {}
-
+        self.set_ifaces()
 
 
 
