@@ -25,11 +25,22 @@ def list(self,_type=None):
         types_pre = '*-'
         types_sep = '\n'+types_pre
         if _type in globals():
-            types = types_sep.join(globals()[_type])
-            ret = f"{types_pre}{types}" if len(types) else f"no {_type} found"
+            data = globals()[_type]
+            if type(data) in [list,dict]:
+                types = types_sep.join(data)
+                ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+            else:
+                ret = "what were you thinking about ?
         elif self.shell.mod != 'nomod' and _type in self.shell.mod.config:
             types = types_sep.join(self.shell.mod.config[_type])
             ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+        elif hasattr(self.shell,_type):
+            data = getattr(self.shell,_type)
+            if type(data) in [list,dict]:
+                types = types_sep.join(data)
+                ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+            else:
+                ret = "what were you thinking about ?"
         else :
             ret = "no match found"
         return ret
