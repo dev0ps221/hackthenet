@@ -9,12 +9,11 @@ class Shell:
     def shellLoop(self):
         while self.run == True:
             cmd,args = self.getCmd()
-            print("arguments commande {}".format(args))
             # print(self.cmds.__contains__(cmd))
             command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
-                    command.run()
+                    command.run(*args)
             else:  
                 print('Commande Inconnue')
                 
@@ -46,7 +45,7 @@ class Shell:
     def parseInput(self,data):
         datalist = data.split(' ')
         cmd = datalist[0]
-        args = datalist[1:len(datalist)-1]
+        args = datalist[1:]
         return cmd,args
 
     def getCmd(self):
