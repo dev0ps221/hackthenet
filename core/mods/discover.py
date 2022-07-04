@@ -12,4 +12,4 @@ class Discover (Module):
         Module.__init__(self,name)
         
 d = Discover('discover')
-d.shell.getCmd('show').run()
+d.shell.process_cmd('pymod')
