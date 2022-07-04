@@ -12,8 +12,9 @@ if __name__ == 'Shell':
 else :
     from .Command import *
 
-def clear():
+def clear(self):
     system('clear')
+    return True
 
 
 def pymod(self,name=None) :
@@ -39,7 +40,7 @@ def _exit(command):
     if(command.shell.mod=='nomod'):
         exit(1)
     else:
-        command.shell.mod=='nomod'
+        command.shell.mod='nomod'
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
