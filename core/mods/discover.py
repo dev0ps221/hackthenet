@@ -5,6 +5,8 @@ here = '/'.join(__file__.split('/')[:-1])
 
 insert(0, here+'/../classes')
 
+import socket
+
 if __name__ == '__main__':
     from Module import *
 else:
@@ -12,10 +14,16 @@ else:
 
 
 class Discover (Module):
+
+
+    def local_ips(self):
+        
+
     def help(self):
         return f"""
     MODULE {self.name}
         """
+
     def __init__(self,name='discover'):
         Module.__init__(self,name)
 

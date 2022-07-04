@@ -161,6 +161,13 @@ class Shell:
         args = datalist[1:]
         return cmd,args
 
+    def set_ifaces(self):
+        self.config['ifaces'] = findalldevs()
+        self.get_ifaces()
+
+    def get_ifaces(self):
+        return self.config['ifaces']
+
     def initCmds(self):
         for cmd in shellCmds:
             name,action = cmd 
@@ -175,6 +182,7 @@ class Shell:
         self.registerCommands(cmds)
         self.mod = mod
         self.setPrompt()
+        self.config = {}
 
 
 
