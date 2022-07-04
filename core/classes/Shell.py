@@ -1,6 +1,20 @@
 #!/usr/bin/env python3
-
+from pcapy import findalldevs
+from os import system
 from .Command import *
+
+def clear():
+    system('clear')
+
+
+shellCmds = [
+    ['exit',Command('exit',lambda self : self.shell.stop(),'exits the terminal')],
+    ['quit',Command('quit',lambda self : self.shell.stop()),'alias for (exit)'],
+    ['clear',Command('clear',lambda self : clear()),'clears the terminal screen'],
+    ['pymod',Command('pymod',lambda self,name=None : print(self.shell if not name else "module {}".format(name)))],
+    ['ifaces',Command('ifaces',lambda self : [print("-{}".format(dev)) for dev in findalldevs()])]
+]
+
 class Shell:
     cmds = {}
     def setPrompt(self,prompt = '>'):
@@ -12,15 +26,18 @@ class Shell:
             command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
-                    command.run(*args)
+                    result = command.run(*args)
             else:  
-                print('Commande Inconnue')
+                result =  'Commande Inconnue'
+            self.process_results(result)
                 
+    def process_results(self,result):
+        print(result)
 
     def avail_commands(self):
         comms = ""
         for key in self.cmds.keys():
-            comms += "\n\t{}".format(key)
+            comms += "\n\t{}".format(self.cmds[key].descript())
         return comms
 
     def __str__(self):
@@ -47,11 +64,16 @@ class Shell:
         args = datalist[1:]
         return cmd,args
 
+    def initCmds(self):
+        for name,action in shellCmds:
+            self.addCommand(name,action)
+
     def getCmd(self):
         return self.parseInput(input("{}".format(self.prompt)))
 
     def __init__(self,cmds={},mod='nomod'):
         self.run = False
+        self.initCmds()
         self.registerCommands(cmds)
         self.mod = mod
         self.setPrompt()
@@ -62,7 +84,4 @@ class Shell:
 
 if __name__ == '__main__':
     shell = Shell()
-    shell.addCommand('exit',Command('exit',lambda self : self.shell.stop()))
-    shell.addCommand('quit',Command('quit',lambda self : self.shell.stop()))
-    shell.addCommand('pymod',Command('pymod',lambda self,name : print(self.shell if not name else "module {}".format(name))))
     shell.loop()
