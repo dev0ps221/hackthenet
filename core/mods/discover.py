@@ -9,7 +9,10 @@ from Module import *
 
 class Discover (Module):
     def __init__(self,name):
-        Module.__init__(self,name)
-        
-d = Discover('discover')
-d.shell.process_cmd('pymod')
+        Module.__init__(self,name='discover')
+
+
+
+if __name__ == '__main__':
+    d = Discover()
+    d.shell.loop()
