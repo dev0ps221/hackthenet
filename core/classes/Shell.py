@@ -23,8 +23,10 @@ def pymod(self,name=None) :
 def load(self,name=None) :
     if name :
         if name in modules:
+            if self.shell.mod != 'nomod' and self.shell.mod.name == name:
+                return "module already loaded"
             insert(0, here+'/../mods')
-            mod = (getattr(__import__(name, here+'/../mods'),(name[0].upper()+name[1:])))
+            mod = (getattr(__import__(name, where_mods_are),(name[0].upper()+name[1:])))
             if(mod):
                 _module = mod() 
                 return _module.shell.loop()
@@ -71,9 +73,8 @@ class Shell:
         self.process_results(command,result)
 
     def process_results(self,cmd,result):
-        print(result) if cmd and cmd.name not in 'quit|exit' and type(result) != bool  else print(result) if not cmd else None 
+        print(result) if cmd and cmd.name not in 'quit|exit' and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
         
-
     def avail_commands(self):
         comms = ""
         for key in self.cmds.keys():
