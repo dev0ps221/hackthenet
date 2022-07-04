@@ -1,8 +1,9 @@
 from os import getcwd
 from sys import path
 insert = path.insert
-  
-insert(0, getcwd()+'/../classes')
+here = '/'.join(__file__.split('/')[:-1])
+
+insert(0, here+'/../classes')
 
 if __name__ == '__main__':
     from Module import *

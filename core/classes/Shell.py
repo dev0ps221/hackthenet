@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 from pcapy import findalldevs
-from os import system
+from os import system,getcwd,listdir
+here = '/'.join(__file__.split('/')[:-1])
+where_mods_are = f'{here}/../mods'
+modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
+
 if __name__ == 'Shell':
     from Command import *
 else :
@@ -13,6 +17,11 @@ def clear():
 def pymod(self,name=None) :
     return self.shell if not name else "module {}".format(name)
 
+def load(self,name=None) :
+    
+    return self.shell if not name else "module {}".format(name)
+
+
 def ifaces(self):
     return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
 
@@ -24,6 +33,7 @@ shellCmds = [
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['pymod',Command('pymod',pymod)],
+    ['load',Command('load',load)],'loads a module and switch to its shell','ex:\nload modulename',
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
