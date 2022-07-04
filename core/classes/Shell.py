@@ -22,11 +22,17 @@ def pymod(self,name=None) :
 
 def list(self,_type=None):
     if _type:
-        if _type in self.shell.available_types:
-            types_pre = '*-'
-            types_sep = '\n'+types_pre
+        types_pre = '*-'
+        types_sep = '\n'+types_pre
+        if _type in globals():
             types = types_sep.join(globals()[_type])
-            return f"{types_pre}{types}"
+            ret = f"{types_pre}{types}" if len(types) else f"no {_type} found"
+        elif self.shell.mod != 'nomod' and _type in self.shell.mod.config:
+            types = types_sep.join(self.shell.mod.config[_type])
+            ret = f"{types_pre}{types}" if len(types) else f"no {_type} found" 
+        else :
+            ret = "no match found"
+        return ret
     else:
         return self.show_usage()
 
@@ -67,7 +73,6 @@ shellCmds = [
 
 class Shell:
     cmds = {}
-    available_types = ['modules']
     def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     

@@ -55,7 +55,7 @@ class Module:
 
     def next_target(self):
         idx,target = self.actual_target
-        targets_size = len(self._targets)
+        targets_size = len(self._targets())
         idx+=1
         if idx < targets_size :
             self.actual_target = idx,self._targets()[idx]
@@ -64,7 +64,7 @@ class Module:
         return self.actual_target[1]
 
 
-    def actual_target(self):
+    def get_actual_target(self):
         return self._targets()[self.actual_target[0]] if self.actual_target[0] >= 0 else None
 
 
@@ -73,5 +73,7 @@ class Module:
         self.config = config
         self.initialize_shell()
         self.initialize_actions()
+        self.next_target()
+        self.config['actual_target'] = self.actual_target
 
 
