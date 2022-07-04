@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from pcapy import findalldevs
 from os import system,getcwd,listdir
+from sys import path,exit
+insert = path.insert
 here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
 modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
@@ -18,8 +20,15 @@ def pymod(self,name=None) :
     return self.shell if not name else "module {}".format(name)
 
 def load(self,name=None) :
-    
-    return self.shell if not name else "module {}".format(name)
+    if name :
+        if name in modules:
+            insert(0, here+'/../mods')
+            mod = (getattr(__import__(name, here+'/../mods'),(name[0].upper()+name[1:])))
+            if(mod):
+                _module = mod() 
+                return _module.shell.loop()
+    else:
+        return self.usage()
 
 
 def ifaces(self):
@@ -27,13 +36,15 @@ def ifaces(self):
 
 def _exit(self):
     self.shell.stop()
+    if(self.mod=='nomod'):
+        exit(1)
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['pymod',Command('pymod',pymod)],
-    ['load',Command('load',load)],'loads a module and switch to its shell','ex:\nload modulename',
+    ['load',Command('load',load,'loads a module and switch to its shell','ex:\nload modulename')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
