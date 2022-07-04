@@ -34,10 +34,12 @@ def load(self,name=None) :
 def ifaces(self):
     return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
 
-def _exit(self):
-    self.shell.stop()
-    if(self.shell.mod=='nomod'):
+def _exit(command):
+    command.shell.stop()
+    if(command.shell.mod=='nomod'):
         exit(1)
+    else:
+        command.shell.mod=='nomod'
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
