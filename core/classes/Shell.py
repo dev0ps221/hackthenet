@@ -82,7 +82,7 @@ shellCmds = [
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
-    ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\navailable types:\n\t*-modules')],
+    ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\n')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
