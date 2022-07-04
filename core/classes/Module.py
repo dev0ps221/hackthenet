@@ -10,6 +10,11 @@ class Module:
     actual_target = (-1,None)
     actions = {}
 
+    def help(self):
+        return f"""
+    MODULE {self.name}
+        """
+
 
     def runAction(self,func):
         def action(*args):

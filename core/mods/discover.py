@@ -12,6 +12,10 @@ else:
 
 
 class Discover (Module):
+    def help(self):
+        return f"""
+    MODULE {self.name}
+        """
     def __init__(self,name='discover'):
         Module.__init__(self,name)
 

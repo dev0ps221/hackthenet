@@ -65,6 +65,7 @@ shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
     ['quit',Command('quit',_exit,'alias for (exit)')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
+    ['help',Command('help',_help,'shows help')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
     ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\navailable types:\n\t*-modules')],
