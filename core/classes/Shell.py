@@ -7,12 +7,22 @@ def clear():
     system('clear')
 
 
+def pymod(self,name=None) :
+    print('he')
+    return self.shell if not name else "module {}".format(name)
+
+def ifaces(self):
+    return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
+
+def _exit(self):
+    self.shell.stop()
+
 shellCmds = [
-    ['exit',Command('exit',lambda self : self.shell.stop(),'exits the terminal')],
-    ['quit',Command('quit',lambda self : self.shell.stop()),'alias for (exit)'],
-    ['clear',Command('clear',lambda self : clear()),'clears the terminal screen'],
-    ['pymod',Command('pymod',lambda self,name=None : print(self.shell if not name else "module {}".format(name)))],
-    ['ifaces',Command('ifaces',lambda self : [print("-{}".format(dev)) for dev in findalldevs()])]
+    ['exit',Command('exit',_exit,'exits the terminal')],
+    ['quit',Command('quit',_exit,'alias for (exit)')],
+    ['clear',Command('clear',clear,'clears the terminal screen')],
+    ['pymod',Command('pymod',pymod)],
+    ['ifaces',Command('ifaces',ifaces)]
 ]
 
 class Shell:
@@ -26,6 +36,7 @@ class Shell:
             command = self.cmds.get(cmd)
             if command != None:
                 if type(command) == Command:
+                    print(command)
                     result = command.run(*args)
             else:  
                 result =  'Commande Inconnue'
@@ -65,7 +76,8 @@ class Shell:
         return cmd,args
 
     def initCmds(self):
-        for name,action in shellCmds:
+        for cmd in shellCmds:
+            name,action = cmd 
             self.addCommand(name,action)
 
     def getCmd(self):
