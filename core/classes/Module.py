@@ -18,7 +18,7 @@ class Module:
 
 
     def setPrompt(self,prompt = 'hackthenet>'):
-        self.shell.setPrompt(f"{Style.RESET_ALL+Back.WHITE+Fore.RED+' '+self.name+Back.GREEN+Fore.WHITE+' > '+Style.RESET_ALL if self.name != 'nomod' else ''}{Back.RED}{prompt} {Style.RESET_ALL}")
+        self.shell.setPrompt(f"{Style.RESET_ALL+Back.WHITE+Fore.RED+' '+self.name+' '+Back.MAGENTA+Fore.WHITE+' > '+Style.RESET_ALL if self.name != 'nomod' else ''}{Back.RED}{prompt} {Style.RESET_ALL}")
 
 
     def setAction(self,func):
