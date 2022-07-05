@@ -16,21 +16,24 @@ else:
 
 class Discover (Module):
 
-
+    ifaddresses = {}
     def get_local_ips(self):
         ifaddrs = [(iface,[(ifelem,netifaces.ifaddresses(iface)[ifelem]) for ifelem in netifaces.ifaddresses(iface)]) for iface in self.get_local_ifaces()]
-        ifaddresses = {}
+        
         for (iface,data) in ifaddrs:
-            ifaddresses[iface] = {}
+            self.ifaddresses[iface] = {}
             for (key,val) in data: 
-                ifaddresses[iface][key] = val
+                self.ifaddresses[iface][key] = val
         ret = []
-        for iface in ifaddresses:
+        for iface in self.ifaddresses:
             retdata='\n\t'+f'{iface}:'
-            for data in ifaddresses[iface]:
-                retdata+='\n\t\t'+f'{data} : {ifaddresses[iface][data]}'
+            for data in self.ifaddresses[iface]:
+                retdata+='\n\t\t'+f'{data} : {self.ifaddresses[iface][data]}'
             ret.append(retdata) 
+            self.update_ip_addresses()
         return ret
+    def update_ip_addresses(self):
+        print(self.ifaddresses)
     def get_local_ifaces(self):
         return netifaces.interfaces()
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-from pcapy import findalldevs
+import netifaces 
 from os import system,getcwd,listdir
 from sys import path,exit
 from colorama import Fore, Back, Style
-
+get_local_ifaces = netifaces.interfaces
 insert = path.insert
 here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
@@ -90,7 +90,7 @@ def load(self,name=None) :
 
 
 def ifaces(self):
-    return '\n'.join(["-{}".format(dev) for dev in findalldevs()])
+    return '\n'.join(["-{}".format(dev) for dev in get_local_ifaces()])
 
 def _help(command,arg=None):
     if arg:
@@ -200,7 +200,7 @@ class Shell:
                 cmdname = cmd.name
         if type(result) is not bool:
             ret = (result) if cmd and (cmdname  not in 'quit|exit') else (result) if not cmd else ('what did you do ?') 
-            print(Fore.BLUE+ret+Style.RESET_ALL)
+            if ret :    print(Fore.BLUE+ret+Style.RESET_ALL)
         return ''
 
 
@@ -241,7 +241,7 @@ class Shell:
 
     def set_ifaces(self):
         try:
-            self.config['ifaces'] = findalldevs()
+            self.config['ifaces'] = get_local_ifaces()
         except Exception:
             self.config['ifaces'] = []
             print('you need to be root in order to perform interface based actions')
