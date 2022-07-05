@@ -25,5 +25,5 @@ class TheShell(Module):
     def __init__(self,name='nomod'):
         Module.__init__(self,name)
         self.shell = Shell(mod=self)
+        self.shell.theshell = self
         self.shell.loop() 
-        globals()['shell'] = self

@@ -123,10 +123,7 @@ def _exit(command):
             globals()['delayedkill']+=1
     else:
         if command.shell.lastmod != 'nomod':
-            if globals()['shell']:
-                command.shell.mod= globals()['shell']  
-            else:
-                command.shell.lastmod
+           command.shell.mod = command.shell.theshell
     command.shell.mod.setPrompt()
 
 shellCmds = [
