@@ -38,17 +38,17 @@ class Discover (Module):
             run = True
             while run:
                 arg = get_targetted()
-                if arg in 'ips':
-                    run = False
-                    self.shell.process_results({'name':f'local {arg}'},self.get_local_ips())
-
-                if arg in 'ifaces':
-                    run = False
-                    self.shell.process_results({'name':f'local {arg}'},self.get_local_ifaces())
-
-                if arg == 'exit':
+                cmd,args = self.shell.parseInput(arg)
+                if cmd in 'ips':
+                    self.shell.process_results({'name':f'local {cmd}'},self.get_local_ips())
+                elif cmd in 'ifaces':
+                    self.shell.process_results({'name':f'local {cmd}'},self.get_local_ifaces())
+                if cmd == 'exit':
                     return False
-                
+                else:
+                    print(cmd)
+                    self.shell.process_cmd(self.shell,cmd,*args)
+                    
 
 
     def help(self):

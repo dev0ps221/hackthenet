@@ -157,6 +157,8 @@ class Shell:
     
     def process_cmd(self,cmd,*args):
         command = self.cmds.get(cmd)
+        print(command)
+        print(self.cmds)
         if command != None:
             if type(command) == Command:
                 result = command.run(*args)
@@ -180,7 +182,7 @@ class Shell:
         return self.process_results(command,result)
 
     def process_results(self,cmd,result):
-        print(result) if cmd and cmd['name'] not in 'quit|exit' and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
+        print(result) if cmd and ((cmd['name'] if type(cmd)  is not Module else cmd.name)  not in 'quit|exit') and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
         return ''
     def avail_commands(self):
         comms = ""
