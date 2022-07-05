@@ -164,10 +164,20 @@ class Shell:
             if cmd in modules:
                 result = self.process_cmd('load',cmd)
             else:
-                if self.mod.has_action(cmd):
-                    result = self.runAction(cmd,*args)
+                if globals()['actualmod']:
+                    mod = globals()['actualmod']
+                    print(cmd,mod.has_action(cmd))
+                    if mod.has_action(cmd):
+                        result = mod.runAction(cmd,*args)
+                    else:
+                        result =  'Commande Inconnue ..'
                 else:
-                    result =  'Commande Inconnue'
+                    if self.mod.has_action(cmd):
+                        result = self.mod.runAction(cmd,*args)
+                    else:
+                        result =  'Commande Inconnue'
+                    
+                    
         return self.process_results(command,result)
 
     def process_results(self,cmd,result):
