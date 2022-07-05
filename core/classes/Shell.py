@@ -199,8 +199,11 @@ class Shell:
             else :
                 cmdname = cmd.name
         if type(result) is not bool:
-            print(result) if cmd and (cmdname  not in 'quit|exit') else print(result) if not cmd else 'what did you do ?' 
+            ret = (result) if cmd and (cmdname  not in 'quit|exit') else (result) if not cmd else ('what did you do ?') 
+        
+        print(Fore.BLUE+ret+Style.RESET_ALL)
         return ''
+
 
     def list_results(self,result):
         return '    =>   '+'\n    =>   '.join(result)
