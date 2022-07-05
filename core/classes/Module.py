@@ -1,4 +1,5 @@
 
+from colorama import Fore, Back, Style
 if __name__ == 'Module':
     from Shell import *
 else:
@@ -17,7 +18,7 @@ class Module:
 
 
     def setPrompt(self,prompt = 'hackthenet>'):
-        self.shell.setPrompt(f"{self.name+'@' if self.name != 'nomod' else ''}{prompt}")
+        self.shell.setPrompt(f"{Style.RESET_ALL+Fore.RED+' < '+self.name+' > '+Fore.WHITE+'@'+Style.RESET_ALL if self.name != 'nomod' else ''}{Back.RED}{prompt} {Style.RESET_ALL}")
 
 
     def setAction(self,func):

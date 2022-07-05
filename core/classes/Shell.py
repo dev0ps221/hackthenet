@@ -2,6 +2,8 @@
 from pcapy import findalldevs
 from os import system,getcwd,listdir
 from sys import path,exit
+from colorama import Fore, Back, Style
+
 insert = path.insert
 here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
@@ -248,7 +250,7 @@ class Shell:
             self.addCommand(name,action)
 
     def getCmd(self):
-        return self.parseInput(input("{}".format(self.prompt)))
+        return self.parseInput(input("{} {} {}".format(Back.RED,self.prompt,Style.RESET_ALL)))
 
     def __init__(self,cmds={},mod='nomod'):
         self.run = False

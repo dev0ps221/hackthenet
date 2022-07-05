@@ -1,3 +1,4 @@
 netifaces
 pcapy
 scapy
+colorama
