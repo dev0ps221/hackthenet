@@ -39,15 +39,15 @@ class Discover (Module):
             while run:
                 arg = get_targetted()
                 cmd,args = self.shell.parseInput(arg)
-                if cmd in 'ips':
-                    self.shell.process_results({'name':f'local {cmd}'},self.get_local_ips())
-                elif cmd in 'ifaces':
-                    self.shell.process_results({'name':f'local {cmd}'},self.get_local_ifaces())
-                if cmd == 'exit':
+                if arg in 'ips':
+                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ips())
+                elif arg in 'ifaces':
+                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ifaces())
+                elif arg == 'exit':
                     return False
                 else:
-                    self.shell.process_cmd(cmd,*args)
-                    
+                    res = self.shell.process_cmd(cmd,*args)
+            return res
 
 
     def help(self):
@@ -59,7 +59,6 @@ class Discover (Module):
         self.register_action(
             'local',self.local
         )
-        print(self.actions)
 
     def __init__(self,name='discover'):
         Module.__init__(self,name)
