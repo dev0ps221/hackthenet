@@ -25,11 +25,17 @@ class Module:
             return func(self,*args)
         return action
 
-    def runAction(self,name):
-        self.get_action(name)
+    def runAction(self,name,*args):
+        action = self.get_action(name)
+        if action != None and collable(action) :
+            return action(*args)
+        else:
+            return action
+
 
     def get_action(self,name):
-        
+        return self.actions[name] if self.has_action(name) else None 
+
     def has_action(self,name):
         return hasattr(self.actions,name)
 
@@ -62,7 +68,7 @@ class Module:
             if arg:
                 print('asked to show ',arg)
         self.register_action(
-            'add_commande','show',show
+            'show',show
         )
 
     def initialize_shell(self):

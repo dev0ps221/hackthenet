@@ -8,6 +8,7 @@ where_mods_are = f'{here}/../mods'
 modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
 
 lastmod = 'nomod'
+actualmod = None
 
 if __name__ == 'Shell':
     from Command import *
@@ -80,6 +81,7 @@ def load(self,name=None) :
             mod = (getattr(__import__(name, where_mods_are),(name[0].upper()+name[1:])))
             if(mod):
                 _module = mod() 
+                globals()['actualmod'] = _module
                 return _module.shell.loop()
     else:
         return self.show_usage()
@@ -162,7 +164,10 @@ class Shell:
             if cmd in modules:
                 result = self.process_cmd('load',cmd)
             else:
-                result =  'Commande Inconnue'
+                if self.mod.has_action(cmd):
+                    result = self.runAction(cmd,*args)
+                else:
+                    result =  'Commande Inconnue'
         return self.process_results(command,result)
 
     def process_results(self,cmd,result):

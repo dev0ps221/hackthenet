@@ -37,12 +37,14 @@ class Discover (Module):
         """
 
     def register_actions(self):
-        register_action(
+        self.register_action(
             'local',self.local
         )
+        print(self.actions)
 
     def __init__(self,name='discover'):
         Module.__init__(self,name)
+        self.register_actions()
 
 
 
