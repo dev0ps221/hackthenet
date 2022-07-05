@@ -180,7 +180,12 @@ class Shell:
         return self.process_results(command,result)
 
     def process_results(self,cmd,result):
-        print(result) if cmd and ((cmd['name'] if type(cmd)  is not Module else cmd.name)  not in 'quit|exit') and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
+        print(str(type(cmd)))
+        if str(type(cmd))  != 'Command':
+            cmdname = cmd['name'] 
+        else :
+            cmdname = cmd.name
+        print(result) if cmd and (cmdname  not in 'quit|exit') and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
         return ''
     def avail_commands(self):
         comms = ""
