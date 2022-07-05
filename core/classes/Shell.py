@@ -166,7 +166,6 @@ class Shell:
             else:
                 if globals()['actualmod']:
                     mod = globals()['actualmod']
-                    print(f'x{cmd}x',mod.has_action(cmd))
                     if mod.has_action(cmd):
                         result = mod.runAction(cmd,*args)
                     else:

@@ -18,17 +18,37 @@ class Discover (Module):
 
 
     def get_local_ips(self):
-        True
+        return 'requested get local ips'
 
     def get_local_ifaces(self):
-        True
+        return 'requested get local ifaces'
 
-    def local(self,arg):
-        if arg in 'ips':
-            return self.get_local_ips()
+    def local(self,module,arg=None):
+        if arg:
+            if arg in 'ips':
+                return self.get_local_ips()
 
-        if arg in 'ifaces':
-            return self.get_local_ifaces()
+            if arg in 'ifaces':
+                return self.get_local_ifaces()
+        else:
+            def get_targetted():
+                print('what do you want to discover')
+                print('choose between :\n  ips\n  ifaces\n  exit')
+                return input(f'{self.shell.prompt}@local>')
+            run = True
+            while run:
+                arg = get_targetted()
+                if arg in 'ips':
+                    run = False
+                    self.shell.process_results({'name':f'local {arg}'},self.get_local_ips())
+
+                if arg in 'ifaces':
+                    run = False
+                    self.shell.process_results({'name':f'local {arg}'},self.get_local_ifaces())
+
+                if arg == 'exit':
+                    return False
+                
 
 
     def help(self):
