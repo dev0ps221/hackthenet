@@ -21,7 +21,7 @@ class Discover (Module):
         return 'requested get local ips'
 
     def get_local_ifaces(self):
-        return 'requested get local ifaces'
+        return netifaces.interfaces()
 
     def local(self,module,arg=None):
         if arg:
@@ -40,9 +40,9 @@ class Discover (Module):
                 arg = get_targetted()
                 cmd,args = self.shell.parseInput(arg)
                 if arg in 'ips':
-                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ips())
+                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ips(),True)
                 elif arg in 'ifaces':
-                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ifaces())
+                    res = self.shell.process_results({'name':f'local {cmd}'},self.get_local_ifaces(),True)
                 elif arg == 'exit':
                     return False
                 else:
