@@ -14,6 +14,12 @@ else:
     from core.classes.Module import *
 
 
+class Iface:
+    def __init__(self,name,data):
+        self.name = name
+        self.data = data
+
+
 class Discover (Module):
 
     ifaddresses = {}
@@ -33,7 +39,7 @@ class Discover (Module):
             self.update_ip_addresses()
         return ret
     def update_ip_addresses(self):
-        print([*filter(lambda x : x == 2,self.ifaddresses.keys())])
+        print([*filter(lambda x : x == '2',self.ifaddresses.keys())])
     def get_local_ifaces(self):
         return netifaces.interfaces()
 
