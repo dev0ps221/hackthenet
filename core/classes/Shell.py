@@ -157,8 +157,6 @@ class Shell:
     
     def process_cmd(self,cmd,*args):
         command = self.cmds.get(cmd)
-        print(command)
-        print(self.cmds)
         if command != None:
             if type(command) == Command:
                 result = command.run(*args)

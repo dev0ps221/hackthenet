@@ -46,8 +46,7 @@ class Discover (Module):
                 if cmd == 'exit':
                     return False
                 else:
-                    print(cmd)
-                    self.shell.process_cmd(self.shell,cmd,*args)
+                    self.shell.process_cmd(cmd,*args)
                     
 
 

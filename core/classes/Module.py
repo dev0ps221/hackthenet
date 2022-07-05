@@ -75,6 +75,7 @@ class Module:
         self.shell = Shell({},self)
         self.shell_prompt = self.shell.prompt
         self.setPrompt(self.shell_prompt)
+        self.shell.initCmds()
 
     def next_target(self):
         idx,target = self.actual_target
