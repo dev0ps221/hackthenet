@@ -33,7 +33,7 @@ class Discover (Module):
             self.update_ip_addresses()
         return ret
     def update_ip_addresses(self):
-        print(self.ifaddresses)
+        print([*filter(lambda x : x == 2,self.ifaddresses.keys())])
     def get_local_ifaces(self):
         return netifaces.interfaces()
 
