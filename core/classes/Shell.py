@@ -231,8 +231,13 @@ class Shell:
         return cmd,args
 
     def set_ifaces(self):
-        self.config['ifaces'] = findalldevs()
-        self.get_ifaces()
+        try:
+            self.config['ifaces'] = findalldevs()
+        except Exception:
+            self.config['ifaces'] = []
+            print('you need to be root in order to perform interface based actions')
+        finally:
+            self.get_ifaces()
 
     def get_ifaces(self):
         return self.config['ifaces']
