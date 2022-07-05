@@ -147,8 +147,8 @@ shellCmds = [
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
-    ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
-    ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t list typename\t]\n\t typenames\n\t\t > '+Back.GREEN+' modules '+Style.RESET_ALL+' \n\t\t > '+Back.GREEN+' cmds '+Style.RESET_ALL+' \n\t\t > '+Back.GREEN+' procs '+Style.RESET_ALL+'\n')],
+    ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename\t]')],
+    ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'list'+Style.RESET_ALL+' '+Fore.GREEN+'typename'+Style.RESET_ALL+' \t]\n\t typenames\n\t\t > '+Fore.GREEN+' modules '+Style.RESET_ALL+' \n\t\t > '+Fore.GREEN+' cmds '+Style.RESET_ALL+' \n\t\t > '+Fore.GREEN+' procs '+Style.RESET_ALL+'\n')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
