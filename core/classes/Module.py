@@ -20,14 +20,21 @@ class Module:
         self.shell.setPrompt(f"{self.name+'@' if self.name != 'nomod' else ''}{prompt}")
 
 
-    def runAction(self,func):
+    def setAction(self,func):
         def action(*args):
             return func(self,*args)
         return action
 
+    def runAction(self,name):
+        self.get_action(name)
+
+    def get_action(self,name):
+        
+    def has_action(self,name):
+        return hasattr(self.actions,name)
 
     def register_action(self,name,func):
-        self.actions[name] = self.runAction(func)
+        self.actions[name] = self.setAction(func)
 
 
     def _targets(self):
@@ -54,7 +61,7 @@ class Module:
         def show(command,self,arg):
             if arg:
                 print('asked to show ',arg)
-        self.runAction(
+        self.register_action(
             'add_commande','show',show
         )
 
