@@ -20,7 +20,7 @@ def clear(self):
 def pymod(self,name=None) :
     return self.shell if not name else "module {}".format(name)
 
-def list(self,_type=None):
+def _list(self,_type=None):
     if _type:
         types_pre = '*-'
         types_sep = '\n'+types_pre
@@ -123,7 +123,7 @@ shellCmds = [
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
-    ['list',Command('list',list,'list all the known matches to the requested type','\n\t[\t list typename \t]\n')],
+    ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t list typename \t]\n')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
@@ -143,12 +143,15 @@ class Shell:
             if type(command) == Command:
                 result = command.run(*args)
         else:  
-            result =  'Commande Inconnue'
-        self.process_results(command,result)
+            if cmd in modules:
+                result = self.process_cmd('load',cmd)
+            else:
+                result =  'Commande Inconnue'
+        return self.process_results(command,result)
 
     def process_results(self,cmd,result):
         print(result) if cmd and cmd.name not in 'quit|exit' and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
-        
+        return ''
     def avail_commands(self):
         comms = ""
         for key in self.cmds.keys():

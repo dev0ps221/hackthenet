@@ -11,6 +11,7 @@ class Command:
         ret = (self.descript())
         ret+= ('\n'+self.show_usage())
         return ret
+        
     def show_usage(self):
         ret = ('Utilisation')
         ret+=(f"\t{self.usage if self.usage else 'NON DOCUMENTÉ !!'}")
