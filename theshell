@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
 
 from core.classes.Shell import Shell,Command
+from core.classes.Module import Module
 
+class TheShell(Module):
+    def help(self):
+        return f"""
+    MODULE {self.name}
+        """
+
+    def __str__(self):
+        return 'nomod'
+
+    def __init__(self,name='nomod'):
+        Module.__init__(self,name)
+        self.shell = Shell(mod=self)
+        self.shell.loop() 
 
 if __name__ == '__main__':
-    shell = Shell()
-    shell.loop() 
+    shell = TheShell()

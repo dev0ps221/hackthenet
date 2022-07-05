@@ -72,6 +72,8 @@ def load(self,name=None) :
         if name in modules:
             if self.shell.mod != 'nomod' and self.shell.mod.name == name:
                 return "module already loaded"
+            
+            self.shell.lastmod = self.shell.mod
             insert(0, here+'/../mods')
             mod = (getattr(__import__(name, where_mods_are),(name[0].upper()+name[1:])))
             if(mod):
@@ -114,7 +116,8 @@ def _exit(command):
     if(command.shell.mod=='nomod'):
         exit(1)
     else:
-        command.shell.mod='nomod'
+        if command.shell.lastmod != 'nomod':
+            command.shell.mod='nomod'
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
@@ -203,6 +206,7 @@ class Shell:
         self.initCmds()
         self.registerCommands(cmds)
         self.mod = mod
+        self.lastmod = self.mod
         self.setPrompt()
         self.config = {}
         self.set_ifaces()

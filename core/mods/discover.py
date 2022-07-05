@@ -1,12 +1,13 @@
 from os import getcwd
 from sys import path
-insert = path.insert
-here = '/'.join(__file__.split('/')[:-1])
-
-insert(0, here+'/../classes')
-
 import socket
 
+
+
+#We make sur to avoid import issues | #nous prenons soin d'eviter les erreurs d'importation
+insert = path.insert
+here = '/'.join(__file__.split('/')[:-1])
+insert(0, here+'/../classes')
 if __name__ == '__main__':
     from Module import *
 else:
