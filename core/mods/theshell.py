@@ -13,7 +13,7 @@ else:
     from core.classes.Module import *
     from core.classes.Shell import *
 
-class TheShell(Module):
+class Theshell(Module):
     def help(self):
         return f"""
     MODULE {self.name}
@@ -27,3 +27,7 @@ class TheShell(Module):
         self.shell = Shell(mod=self)
         self.shell.theshell = self
         self.shell.loop() 
+
+class TheShell(Theshell):
+    def __init__(self,name='nomod'):
+        Theshell.__init__(self,name)

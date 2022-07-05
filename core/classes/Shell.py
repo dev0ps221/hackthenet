@@ -7,7 +7,7 @@ here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
 modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
 
-delayedkill = 0
+lastmod = 'nomod'
 
 if __name__ == 'Shell':
     from Command import *
@@ -116,19 +116,21 @@ def _help(command,arg=None):
 def _exit(command):
     command.shell.stop()
     if(command.shell.mod=='nomod'):
-        if globals()['delayedkill'] : 
-            globals()['delayedkill'] = 0
-            exit(1)
-        else:
-            globals()['delayedkill']+=1
+        exit(1)
     else:
         if hasattr(command.shell,'theshell'):
             command.shell.mod = command.shell.theshell
         else:
-            command.shell.mod = 'nomod'
+            if command.shell.mod == globals()['lastmod']:
+                command.shell.mod = command.shell.process_cmd('load','theshell')
+            else:
+                command.shell.mod = command.shell.lastmod
+            globals()['lastmod'] = command.shell.lastmod
+        
+        if str(type(command.shell.mod)) == 'Module' :
+            command.shell.mod.setPrompt()
         
 
-    command.shell.mod.setPrompt()
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],
