@@ -9,7 +9,6 @@ insert = path.insert
 here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
 modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
-
 lastmod = 'nomod'
 actualmod = None
 

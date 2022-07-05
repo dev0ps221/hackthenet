@@ -22,7 +22,7 @@ class Portscan (Module):
     MODULE {self.name}
         """
 
-    def __init__(self,name='ifacemod'):
+    def __init__(self,name='portscan'):
         Module.__init__(self,name)
 
 
