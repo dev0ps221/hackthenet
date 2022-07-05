@@ -185,7 +185,8 @@ class Shell:
                 cmdname = cmd['name'] 
             else :
                 cmdname = cmd.name
-        print(result) if cmd and (cmdname  not in 'quit|exit') and type(result) != bool  else print(result) if not cmd else 'what did you do ?' 
+        if type(result) is not bool:
+            print(result) if cmd and (cmdname  not in 'quit|exit') else print(result) if not cmd else 'what did you do ?' 
         return ''
     def avail_commands(self):
         comms = ""
