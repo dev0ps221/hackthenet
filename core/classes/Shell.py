@@ -250,7 +250,7 @@ class Shell:
             self.addCommand(name,action)
 
     def getCmd(self):
-        return self.parseInput(input("{} {} {}".format(Back.RED,self.prompt,Style.RESET_ALL)))
+        return self.parseInput(input("{}{} {}".format(Back.RED,self.prompt,Style.RESET_ALL)))
 
     def __init__(self,cmds={},mod='nomod'):
         self.run = False
