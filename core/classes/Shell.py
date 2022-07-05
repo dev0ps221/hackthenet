@@ -179,7 +179,9 @@ class Shell:
                     
         return self.process_results(command,result)
 
-    def process_results(self,cmd,result):
+    def process_results(self,cmd,result,listed=False):
+        if listed:
+            result = self.list_results(result)
         if cmd : 
             if type(cmd)  is not Command:
                 cmdname = cmd['name'] 
@@ -188,6 +190,10 @@ class Shell:
         if type(result) is not bool:
             print(result) if cmd and (cmdname  not in 'quit|exit') else print(result) if not cmd else 'what did you do ?' 
         return ''
+
+    def list_results(self,result):
+        return 
+
     def avail_commands(self):
         comms = ""
         for key in self.cmds.keys():
