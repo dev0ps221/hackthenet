@@ -21,6 +21,9 @@ else :
 def clear(self,txt='TEK TECH'):
     system('clear')
     print(pyfiglet.figlet_format(txt))
+    print(Fore.YELLOW+' TEK TECH\'s hackthenet '+Style.RESET_ALL)
+    print(Fore.BLUE+' auteur '+Style.RESET_ALL+Fore.RED+'El Hadji Seybatou Mbengue (dev0ps221)'+Style.RESET_ALL)
+    print(Fore.BLUE+' github repo '+Style.RESET_ALL+Fore.RED+'https://github.com/dev0ps221/hackthenet'+Style.RESET_ALL)
     return True
 
 
