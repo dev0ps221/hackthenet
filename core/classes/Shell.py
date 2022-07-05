@@ -18,9 +18,9 @@ if __name__ == 'Shell':
 else :
     from .Command import *
 
-def clear(self):
+def clear(self,txt='TEK TECH'):
     system('clear')
-    print(pyfiglet.figlet_format('TEK TECH'))
+    print(pyfiglet.figlet_format(txt))
     return True
 
 
