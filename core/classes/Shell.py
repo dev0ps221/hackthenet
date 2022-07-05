@@ -123,7 +123,11 @@ def _exit(command):
             globals()['delayedkill']+=1
     else:
         if command.shell.lastmod != 'nomod':
-            command.shell.mod='nomod'
+            if globals()['shell']:
+                command.shell.mod= globals()['shell']  
+            else:
+                command.shell.lastmod
+    command.shell.mod.setPrompt()
 
 shellCmds = [
     ['exit',Command('exit',_exit,'exits the terminal')],

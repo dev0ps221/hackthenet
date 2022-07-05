@@ -26,3 +26,4 @@ class TheShell(Module):
         Module.__init__(self,name)
         self.shell = Shell(mod=self)
         self.shell.loop() 
+        globals()['shell'] = self
