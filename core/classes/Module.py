@@ -16,6 +16,10 @@ class Module:
         """
 
 
+    def setPrompt(self,prompt = 'hackthenet>'):
+        self.shell.setPrompt(f"{self.name+'@' if self.name != 'nomod' else ''}{prompt}")
+
+
     def runAction(self,func):
         def action(*args):
             return func(self,*args)
@@ -56,7 +60,8 @@ class Module:
 
     def initialize_shell(self):
         self.shell = Shell({},self)
-        self.shell.setPrompt(f"{self.name}@{self.shell.prompt}")
+        self.shell_prompt = self.shell.prompt
+        self.setPrompt(self.shell_prompt)
 
     def next_target(self):
         idx,target = self.actual_target

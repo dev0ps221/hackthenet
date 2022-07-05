@@ -7,6 +7,8 @@ here = '/'.join(__file__.split('/')[:-1])
 where_mods_are = f'{here}/../mods'
 modules = list(filter(lambda el:el is not None,[el[:-3] if el[-3:] == '.py' and el != '__init__.py' else None for el in listdir(where_mods_are)]))
 
+delayedkill = 0
+
 if __name__ == 'Shell':
     from Command import *
 else :
@@ -114,7 +116,11 @@ def _help(command,arg=None):
 def _exit(command):
     command.shell.stop()
     if(command.shell.mod=='nomod'):
-        exit(1)
+        if globals()['delayedkill'] : 
+            globals()['delayedkill'] = 0
+            exit(1)
+        else:
+            globals()['delayedkill']+=1
     else:
         if command.shell.lastmod != 'nomod':
             command.shell.mod='nomod'
