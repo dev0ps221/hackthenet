@@ -192,7 +192,7 @@ class Shell:
         return ''
 
     def list_results(self,result):
-        return 
+        return '    =>   '+'\n    =>   '.join(result)
 
     def avail_commands(self):
         comms = ""

@@ -18,7 +18,7 @@ class Discover (Module):
 
 
     def get_local_ips(self):
-        return 'requested get local ips'
+        return ['requested get local ips']
 
     def get_local_ifaces(self):
         return netifaces.interfaces()
@@ -26,10 +26,10 @@ class Discover (Module):
     def local(self,module,arg=None):
         if arg:
             if arg in 'ips':
-                return self.get_local_ips()
+                return self.shell.process_results({'name':f'local {arg}'},self.get_local_ips(),True)
 
             if arg in 'ifaces':
-                return self.get_local_ifaces()
+                return self.shell.process_results({'name':f'local {arg}'},self.get_local_ifaces(),True)
         else:
             def get_targetted():
                 print('what do you want to discover')
