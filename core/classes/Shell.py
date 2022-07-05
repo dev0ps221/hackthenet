@@ -180,7 +180,10 @@ class Shell:
         return self.process_results(command,result)
 
     def process_results(self,cmd,result,listed=False):
-        result = result+'\n' if listed == False else result.append('\n')
+        if type(result) is list:
+            result.append('\n\n')
+        if type(result) is str :
+            result = result+'\n\n' 
         if listed:
             result = self.list_results(result)
         if cmd : 
