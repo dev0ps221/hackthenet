@@ -200,8 +200,7 @@ class Shell:
                 cmdname = cmd.name
         if type(result) is not bool:
             ret = (result) if cmd and (cmdname  not in 'quit|exit') else (result) if not cmd else ('what did you do ?') 
-        
-        print(Fore.BLUE+ret+Style.RESET_ALL)
+            print(Fore.BLUE+ret+Style.RESET_ALL)
         return ''
 
 
