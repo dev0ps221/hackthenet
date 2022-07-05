@@ -119,7 +119,7 @@ def _exit(command):
         exit(1)
     else:
         if hasattr(command.shell,'theshell'):
-            command.shell.mod = command.shell.theshell
+            exit(1)
         else:
             if command.shell.mod == globals()['lastmod']:
                 command.shell.mod = command.shell.process_cmd('load','theshell')
