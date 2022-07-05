@@ -122,8 +122,12 @@ def _exit(command):
         else:
             globals()['delayedkill']+=1
     else:
-        if command.shell.lastmod != 'nomod':
-           command.shell.mod = command.shell.theshell
+        if hasattr(command.shell,'theshell'):
+            command.shell.mod = command.shell.theshell
+        else:
+            command.shell.mod = 'nomod'
+        
+
     command.shell.mod.setPrompt()
 
 shellCmds = [
@@ -173,6 +177,7 @@ class Shell:
 
     def stop(self):
         self.run = False
+        self.lastmod = self.mod
 
     def loop(self):
         self.run = True
