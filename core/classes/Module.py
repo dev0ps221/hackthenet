@@ -27,7 +27,7 @@ class Module:
 
     def runAction(self,name,*args):
         action = self.get_action(name)
-        if action != None and collable(action) :
+        if action != None and callable(action) :
             return action(*args)
         else:
             return action
@@ -37,7 +37,7 @@ class Module:
         return self.actions[name] if self.has_action(name) else None 
 
     def has_action(self,name):
-        return hasattr(self.actions,name)
+        return name in self.actions
 
     def register_action(self,name,func):
         self.actions[name] = self.setAction(func)
