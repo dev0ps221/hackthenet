@@ -188,9 +188,9 @@ class Shell:
 
     def process_results(self,cmd,result,listed=False):
         if type(result) is list:
-            result.append('\n\n')
+            result.append('\n')
         if type(result) is str :
-            result = result+'\n\n' 
+            result = result+'\n' 
         if listed:
             result = self.list_results(result)
         if cmd : 
