@@ -2,4 +2,6 @@
 from core.mods.theshell import TheShell
 
 if __name__ == '__main__':
+    import pyfiglet
+    print(pyfiglet.figlet_format('TEK TECH'))
     shell = TheShell()

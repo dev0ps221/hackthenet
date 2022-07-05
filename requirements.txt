@@ -2,3 +2,4 @@ netifaces
 pcapy
 scapy
 colorama
+pyfiglet

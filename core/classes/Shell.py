@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import netifaces 
+import pyfiglet
 from os import system,getcwd,listdir
 from sys import path,exit
 from colorama import Fore, Back, Style
@@ -19,6 +20,7 @@ else :
 
 def clear(self):
     system('clear')
+    print(pyfiglet.figlet_format('TEK TECH'))
     return True
 
 
