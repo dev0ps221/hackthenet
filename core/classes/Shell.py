@@ -117,7 +117,7 @@ def _help(command,arg=None):
         return (command.help())
         
 
-def _exit(command):
+def _back(command):
     command.shell.stop()
     if(command.shell.mod=='nomod'):
         exit(1)
@@ -135,15 +135,20 @@ def _exit(command):
             command.shell.mod.setPrompt()
         
 
+def _exit(command):
+    command.shell.stop()
+    exit(1)
+        
 
 shellCmds = [
-    ['exit',Command('exit',_exit,'exits the terminal')],
-    ['quit',Command('quit',_exit,'alias for (exit)')],
+    ['back',Command('back',_back,'exits the actual module, if nomod exits theshell')],
+    ['exit',Command('exit',_exit,'exits theshell')],
+    ['quit',Command('quit',_exit,'allias for exit')],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename \t]')],
-    ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t list typename \t]\n')],
+    ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t list typename\t]\n\t typenames\n\t\t > '+Back.GREEN+' modules '+Style.RESET_ALL+' \n\t\t > '+Back.GREEN+' cmds '+Style.RESET_ALL+' \n\t\t > '+Back.GREEN+' procs '+Style.RESET_ALL+'\n')],
     ['ifaces',Command('ifaces',ifaces)]
 ]
 
