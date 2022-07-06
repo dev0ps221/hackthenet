@@ -1,6 +1,5 @@
 
 from socket import *
-from time import sleep
 from os import getcwd
 from sys import path
 import netifaces
@@ -21,12 +20,15 @@ class Portscan (Module):
 
 
 
-    def simple_scan(self):
-        def _do():
+    def simple_scan(self,module,tgt=None,ports=None):
+        def _do(tgt=None,ports=None):
             openports = []
             closedports = []
-            print('give me a target ip')
-            TGT = input('pORTsCanF0Rdev0ps221#>')
+            filteredports = []
+            if tgt == None :
+                print('give me a target ip')
+                tgt = input('pORTsCanF0Rdev0ps221#>')
+            TGT = tgt
             print('give me the minimum port to check')
             MINPORT = int(input('pORTsCanF0Rdev0ps221#>'))
             print('give me the maximum port to check')
@@ -42,17 +44,20 @@ class Portscan (Module):
                                     print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                     try:
                                             cli = socket(AF_INET,SOCK_STREAM)
-                                            conn = cli.connect((TGT,port))
-                                            openports.append(port)
+                                            conn = cli.connect((TGT,port),timeout=15)
+                                            if conn:
+                                                openports.append(port)
+                                            else:
+                                                filteredports.append(port)
                                             cli.close()
                                     except Exception as e:
                                             closedports.append(port)
-                                            print(f'\n encountered errors -> .{e} for port :{port}') 
-                                            sleep(0.5)
+                                            print(f'\n encountered errors -> .{e} for port :{port}')
                             print('',end='\n')
                             system('clear')
                             print('scan results')
                             [print(f'\t - port {p} is open') for p in openports]
+                            [print(f'\t - port {p} is open|filtered') for p in filteredports]
                             print(f'\t - {len(closedports)} closed ports')
                             
                     else:
@@ -60,10 +65,10 @@ class Portscan (Module):
             except Exception as e:
                     print('the specified host address is wrong or the host is not up !!')
         try:
-                while True:
-                        _do()
+            while True:
+                _do(tgt,ports)
         except KeyboardInterrupt as e:
-                print('closing...')
+            print('closing...')
 
     def help(self):
         return f"""
