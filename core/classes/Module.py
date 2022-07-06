@@ -63,9 +63,11 @@ class Module:
         self.register_action(
             'add_commande',lambda self,name,action:self.shell.add_commande(name,action)
         )
+        self.set_shell_commands()
 
     def set_shell_commands(self):
-        def show(command,self,arg):
+        def show(command,self,arg=None):
+            print(command,self,arg)
             if arg:
                 print('asked to show ',arg)
         self.register_action(

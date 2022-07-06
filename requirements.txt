@@ -3,3 +3,4 @@ pcapy
 scapy
 colorama
 pyfiglet
+socket
