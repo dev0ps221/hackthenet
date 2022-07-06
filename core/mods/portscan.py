@@ -1,6 +1,7 @@
 
 from socket import *
-from time import sleepfrom os import getcwd
+from time import sleep
+from os import getcwd
 from sys import path
 import netifaces
 import scapy
