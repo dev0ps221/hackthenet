@@ -22,6 +22,7 @@ class Portscan (Module):
 
 
     def simple_scan(self):
+        def _do():
             openports = []
             closedports = []
             print('give me a target ip')
@@ -58,11 +59,11 @@ class Portscan (Module):
                             print('the specified host address is wrong or the host is not up !!')
             except Exception as e:
                     print('the specified host address is wrong or the host is not up !!')
-    try:
-            while True:
-                    _do()
-    except KeyboardInterrupt as e:
-            print('closing...')
+        try:
+                while True:
+                        _do()
+        except KeyboardInterrupt as e:
+                print('closing...')
 
     def help(self):
         return f"""
