@@ -26,13 +26,13 @@ class Portscan (Module):
             closedports = []
             filteredports = []
             if tgt == None :
-                print('give me a target ip')
-                tgt = input('pORTsCanF0Rdev0ps221#>')
+                print('\t\t\t\t\tgive me a target ip')
+                tgt = input(f'{self.shell.prompt}@simplescan>')
             TGT = tgt
-            print('give me the minimum port to check')
-            MINPORT = int(input('pORTsCanF0Rdev0ps221#>'))
-            print('give me the maximum port to check')
-            MAXPORT = int(input('pORTsCanF0Rdev0ps221#>'))
+            print('\t\t\t\t\tgive me the minimum port to check')
+            MINPORT = int(input(f'{self.shell.prompt}@simplescan>'))
+            print('\t\t\t\t\tgive me the maximum port to check')
+            MAXPORT = int(input(f'{self.shell.prompt}@simplescan>'))
             try:
                     if(gethostbyname(TGT)):
                             pg = 0
@@ -43,13 +43,13 @@ class Portscan (Module):
                                     pg += 1
                                     print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                     try:
-                                            cli = socket(AF_INET,SOCK_STREAM)
-                                            conn = cli.connect((TGT,port),timeout=15)
+                                            conn = create_connection((TGT,port),timeout=5)
+                                            print(conn)
                                             if conn:
                                                 openports.append(port)
                                             else:
                                                 filteredports.append(port)
-                                            cli.close()
+                                            conn.close()
                                     except Exception as e:
                                             closedports.append(port)
                                             print(f'\n encountered errors -> .{e} for port :{port}')
