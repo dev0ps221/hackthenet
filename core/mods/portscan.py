@@ -26,8 +26,9 @@ class Portscan (Module):
             openports = []
             closedports = []
             filteredports = []
-            if tgt == None :                
-                tgt = self.shell.get_ip('simplescan>')
+            while tgt == None :                
+                gottgt = self.shell.get_ip('simplescan>')
+                tgt = gottgt if self.shell.valid_ip(gottgt) or self.shell.valid_network(gottgt) else None
             TGT = tgt
             MINPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the minimum port to check')
             MAXPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the maximum port to check')
@@ -41,7 +42,7 @@ class Portscan (Module):
                                     pg += 1
                                     print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                     try:
-                                            conn = create_connection((TGT,port),timeout=ss5)
+                                            conn = create_connection((TGT,port),timeout=5)
                                             print(conn)
                                             if conn:
                                                 openports.append(port)

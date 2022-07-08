@@ -50,7 +50,7 @@ class Module:
 
     def add_target(self,target):
         self.config['targets'].append(target)
-
+        print(f'appended target {target}')
 
     def remove_target(self,target):
         self.config['targets'] = []

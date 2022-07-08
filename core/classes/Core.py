@@ -14,6 +14,9 @@ class IpAddress:
     def get_address(self):
         return self.address if self.has_address() else self.has_address()
 
+    def __init__(self,ip=None):
+        if ip: self.set_address(ip)
+
 class MacAddress:
     address = None
     def has(self,name=None):
@@ -27,6 +30,9 @@ class MacAddress:
 
     def get_address(self):
         return self.address if self.has_address() else self.has_address()
+
+    def __init__(self,mac=None):
+        if mac: self.set_address(mac)
 
 class Port:
     number = None
@@ -44,7 +50,7 @@ class Port:
     def get_number(self):
         return self.number if self.has_number() else self.has_number()
 
-    def set_ip(port):
+    def set_ip(self,port):
         self.ip = port
 
     def has_ip(self):
@@ -60,6 +66,15 @@ class Port:
         if ip:
             set_ip(ip)
 
+class Network:
+    hosts = []
+    targeted_hosts = []
+    
+
+    def __init__(self,netrange=[]):
+        print(netrange)
+
+
 class Host:
     ip = IpAddress()
     mac = MacAddress()
@@ -70,19 +85,36 @@ class Host:
 
     def has(self,name=None):
         return hasattr(self,name) and self[name] is not None if name else name
+
+    def set_mac(address):
+        self.mac.set_address(address)
+
+    def has_mac(self):
+        return self.has('mac')
+
+
+    def get_mac(self):
+        return self.mac if self.has_mac() else self.has_mac()
+
+    def set_ip(self,ip):
+        self.ip.set_address(ip)
+
+    def has_ip(self):
+        return self.has('ip')
+
+
+    def get_ip(self):
+        return self.ip if self.has_ip() else self.has_ip()
     
     def get_targeted_port(self,port):
         matches = self.targeted_ports.filter(lambda a:a.number==port)
         return matches[0] if len(matches) else None  
 
-    def target_port(port):
+    def target_port(self,port):
         if get_targeted_port(port) == None:
             self.targeted_ports.append(Port(port))
 
-
-class Network:
-    hosts = []
-    targeted_hosts = []
-    
-
+    def __init__(self,ip=None,mac=None):
+        if ip : self.set_ip(ip)
+        if mac : self.set_mac(mac)
 
