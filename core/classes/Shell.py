@@ -78,14 +78,18 @@ def _list(self,_type=None):
     else:
         return self.show_usage()
 
-def target(self,address):
+def target(command,address):
     target = None
-    if self.shell.valid_ip(address):
+    if command.shell.valid_ip(address):
         target = Host(address)
-    elif self.shell.valid_network(address):
+        command.shell.mod.add_target(target)
+    elif command.shell.valid_network(address):
         target = Network(address)
-    self.add_target(target)
-    
+        print(f"{address} is not a valid ip address")
+        command.shell.mod.add_target(target)
+    else :
+        print(f"{address} is not a valid network representation")
+
 
 
 def load(self,name=None) :
@@ -185,8 +189,7 @@ shellCmds = [
 
 class Shell:
     cmds = {}
-    
-
+    config = {'targets':[]}
     def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     
@@ -250,6 +253,27 @@ class Shell:
     def unset_config(self,name):
         del(self.config[name])
         self.config[name] = None
+
+
+    def process_target(self,address):
+        target = None
+        if self.valid_ip(address):
+            target = Host(address)
+        elif self.valid_network(address):
+            target = Network(address)
+            print(f"{address} is not a valid IPv4 address")
+        else :
+            print(f"{address} is not a network representation address")
+        return target
+
+    def add_target(self,target):
+        self.config['targets'].append(target)
+
+    def remove_target(self,target):
+        self.config['targets'] = []
+        for tgt in self._targets:
+            self.add_target(tgt) if tgt != target else None
+
 
     def process_results(self,cmd,result,listed=False):
         if type(result) is list:
@@ -331,7 +355,6 @@ class Shell:
         self.mod = mod
         self.lastmod = self.mod
         self.setPrompt()
-        self.config = {}
         self.set_ifaces()
 
 

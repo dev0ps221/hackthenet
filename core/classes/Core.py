@@ -3,13 +3,16 @@ class IpAddress:
     hostpart = None
     netpart = None
     def has(self,name=None):
-        return (hasattr(self,name) and self[name] is not None) if name else name
+        return (hasattr(self,name) and getattr(self,name) is not None) if name else name
     
     def has_address(self):
         return self.has('address')
 
     def set_address(self,address=None):
         self.address = address
+
+    def __str__(self):
+        return f" IPADDRESS:{self.address} "
 
     def get_address(self):
         return self.address if self.has_address() else self.has_address()
@@ -20,8 +23,11 @@ class IpAddress:
 class MacAddress:
     address = None
     def has(self,name=None):
-        return hasattr(self,name) and self[name] is not None if name else name
+        return hasattr(self,name) and getattr(self,name) is not None if name else name
     
+    def __str__(self):
+        return f" MACADDRESS:{self.address} "
+
     def has_address(self):
         return self.has('address')
 
@@ -38,7 +44,7 @@ class Port:
     number = None
     ip = None
     def has(self,name=None):
-        return hasattr(self,name) and self[name] is not None if name else name
+        return hasattr(self,name) and getattr(self,name) is not None if name else name
 
     def set_number(port):
         self.number = port
@@ -81,10 +87,17 @@ class Host:
     network = Network()
     ports = []
     targeted_ports = []
-    known_ports = []
+    open_ports = []
+
+    def __str__(self):
+        return f"HOST OBJECT AT {self.ip if self.ip else ' still an unknown ip address'}"
 
     def has(self,name=None):
-        return hasattr(self,name) and self[name] is not None if name else name
+        return hasattr(self,name) and getattr(self,name) is not None if name else name
+
+    def target_ports(self,shell):
+
+
 
     def set_mac(address):
         self.mac.set_address(address)
@@ -104,7 +117,7 @@ class Host:
 
 
     def get_ip(self):
-        return self.ip if self.has_ip() else self.has_ip()
+        return self.ip.get_address() if self.has_ip() else self.has_ip()
     
     def get_targeted_port(self,port):
         matches = self.targeted_ports.filter(lambda a:a.number==port)

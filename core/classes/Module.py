@@ -50,26 +50,31 @@ class Module:
 
     def add_target(self,target):
         self.config['targets'].append(target)
+        self.shell.add_target(target)
         print(f'appended target {target}')
 
     def remove_target(self,target):
         self.config['targets'] = []
         for tgt in self._targets:
             self.add_target(tgt) if tgt != target else None
+
+        self.shell.remove_target(target)
         return self._targets()
 
 
     def initialize_actions(self):
         self.register_action(
-            'add_commande',lambda self,name,action:self.shell.add_commande(name,action)
+            'add_commande',lambda name,action:self.shell.add_commande(name,action)
         )
         self.set_shell_commands()
 
     def set_shell_commands(self):
-        def show(command,self,arg=None):
+        def show(command,arg=None):
             print(command,self,arg)
             if arg:
-                print('asked to show ',arg)
+                ret = self.config[arg] if arg in self.config else self.shell.config[arg] if arg in self.shell.config else "No match found"
+                print()
+                return ''.join([str(e) for e in ret]) if type(ret) is list else str(ret)
         self.register_action(
             'show',show
         )
