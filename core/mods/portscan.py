@@ -41,7 +41,7 @@ class Portscan (Module):
                                     pg += 1
                                     print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                     try:
-                                            conn = create_connection((TGT,port),timeout=5)
+                                            conn = create_connection((TGT,port),timeout=ss5)
                                             print(conn)
                                             if conn:
                                                 openports.append(port)

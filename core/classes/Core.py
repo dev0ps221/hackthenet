@@ -83,5 +83,6 @@ class Host:
 class Network:
     hosts = []
     targeted_hosts = []
+    
 
 
