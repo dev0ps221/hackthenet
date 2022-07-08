@@ -143,11 +143,25 @@ def _exit(command):
     command.shell.stop()
     exit(1)
         
+def _set(command,name=None,val=None):
+    if(name and val):
+        command.shell.mod.set_config(name,val)
+    else:
+        return command.help()
+                
+def _get(command,name=None):
+    if(name):
+        val =  command.shell.get_config(name)
+        return val if val else f"configvar [{Fore.RED}{name}{Style.RESET_ALL}] inconnue"
+    else:
+        return command.help()
 
 shellCmds = [
     ['back',Command('back',_back,'exits the actual module, if nomod exits theshell')],
     ['exit',Command('exit',_exit,'exits theshell')],
     ['quit',Command('quit',_exit,'allias for exit')],
+    ['set',Command('set',_set,'sets a config variable for the current shell and if a module is loaded, for the corresponding module too','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'set'+Style.RESET_ALL+' '+Fore.GREEN+'configname'+' '+Fore.GREEN+'configval'+Fore.BLUE+' \t]\n'+Style.RESET_ALL)],
+    ['get',Command('get',_get,'reveals a config variable for the current shell and if a module is loaded, for the corresponding module too','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'get'+Style.RESET_ALL+' '+Fore.GREEN+'configname'+' \t]\n'+Style.RESET_ALL)],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
     ['pymod',Command('pymod',pymod)],
@@ -158,6 +172,8 @@ shellCmds = [
 
 class Shell:
     cmds = {}
+    
+
     def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     
@@ -166,6 +182,16 @@ class Shell:
             cmd,args = self.getCmd()
             self.process_cmd(cmd,*args)
     
+
+    def get_ip(self,modprompt='>'):
+        print('\t\t\t\t\tgive me a target ip')
+        return input(f'{self.prompt} @{modprompt}')  
+
+    
+    def get_port(self,modprompt='>',text='\t\t\t\t\tgive me a target port'):
+        print(text)
+        return int(input(f'{self.prompt} @{modprompt}'))
+
     def process_cmd(self,cmd,*args):
         command = self.cmds.get(cmd)
         if command != None:
@@ -189,6 +215,23 @@ class Shell:
                     
                     
         return self.process_results(command,result)
+
+    def set_config(self,name,val):
+        self.config[name] = val
+
+
+    def get_configs(self):
+        return []
+
+    def get_config(self,name):
+        try:
+            return self.config[name] 
+        except:
+            return None
+
+    def unset_config(self,name):
+        del(self.config[name])
+        self.config[name] = None
 
     def process_results(self,cmd,result,listed=False):
         if type(result) is list:

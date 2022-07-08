@@ -74,6 +74,29 @@ class Module:
             'show',show
         )
 
+    def set_config(self,name,val):
+        self.config[name] = val
+        self.shell.set_config(name,val)
+
+    def get_configs(self):
+        return []
+
+    def get_config(self,name):
+        try:
+            return self.config[name] if self.config[name] else self.shell.get_config()
+        except:
+            return self.shell.get_config()
+
+    def unset_config(self,name):
+        try:
+            del(self.config[name])
+            self.config[name] = None
+            self.shell.unset_config(name)
+            return True
+        except:
+            return False
+
+
     def initialize_shell(self):
         self.shell = Shell({},self)
         self.shell_prompt = self.shell.prompt

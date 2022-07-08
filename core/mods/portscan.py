@@ -21,18 +21,16 @@ class Portscan (Module):
 
 
     def simple_scan(self,module,tgt=None,ports=None):
+
         def _do(tgt=None,ports=None):
             openports = []
             closedports = []
             filteredports = []
-            if tgt == None :
-                print('\t\t\t\t\tgive me a target ip')
-                tgt = input(f'{self.shell.prompt}@simplescan>')
+            if tgt == None :                
+                tgt = self.shell.get_ip('simplescan>')
             TGT = tgt
-            print('\t\t\t\t\tgive me the minimum port to check')
-            MINPORT = int(input(f'{self.shell.prompt}@simplescan>'))
-            print('\t\t\t\t\tgive me the maximum port to check')
-            MAXPORT = int(input(f'{self.shell.prompt}@simplescan>'))
+            MINPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the minimum port to check')
+            MAXPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the maximum port to check')
             try:
                     if(gethostbyname(TGT)):
                             pg = 0
