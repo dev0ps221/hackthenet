@@ -71,12 +71,13 @@ class Discover (Module):
 
     def network(self):
 
+        
+
         def get_targetted():
-            print('which network do you want to discover ?\n[type a network C.I.D.R. representation')
-            print('choose between :\n  ips\n  ifaces\n  exit')
-            return input(f'{self.shell.prompt}@local>')
+            print('which network do you want to discover ?\n[type a network representation]\n\tex : 192.168.1.1/24\t[type enter for a local network discovery]')
+            return self.shell.getCmd(self.shell,f'@network>')
         netrep = get_targetted()
-        if self.shell.valid_network(netrep)
+        print(self.shell.valid_network(netrep))
 
 
     def help(self):
@@ -87,6 +88,9 @@ class Discover (Module):
     def register_actions(self):
         self.register_action(
             'local',self.local
+        )
+        self.register_action(
+            'network',self.network
         )
 
     def __init__(self,name='discover'):
