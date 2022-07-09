@@ -2,7 +2,7 @@ from os import getcwd
 from sys import path
 import socket
 import netifaces
-from scapy.all import get_if_list,get_if_addr,get_working_if
+from scapy.all import get_if_list,get_if_addr,get_working_if,conf
 
 
 #We make sur to avoid import issues | #nous prenons soin d'eviter les erreurs d'importation
@@ -73,12 +73,14 @@ class Discover (Module):
     def network(self,arg):
 
         
+        def broadcastmask(broadcast):
+            return '.'.join([e for e in map(lambda t: '255' if t != '255' else '0',broadcast.split('.'))])
 
         def get_targetted():
             print('which network do you want to discover ?\n[type a network representation]\n\tex : 192.168.1.1/24\t[type enter for a local network discovery]')
             return self.shell.getCmd(f'@network>')
         netrep = get_targetted()
-        netrep = netrep if netrep != "" else gateways()['default'][AF_INET][0] 
+        netrep = netrep if netrep != "" else all.conf.route.route()[2]+'/'+broadcastmask(all.conf.route.get_if_bcast(gateways()['default'][2][1])[0]) 
         print(self.shell.valid_network(netrep))
 
 
