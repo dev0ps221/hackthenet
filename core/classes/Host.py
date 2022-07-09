@@ -2,9 +2,11 @@
 
 if __name__ == 'Host':
     from IpAddress import * 
+    from Port import * 
     from MacAddress import * 
 else:
     from .IpAddress import * 
+    from .Port import * 
     from .MacAddress import * 
 
 class Host:
@@ -21,24 +23,28 @@ class Host:
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
-    def has_port(self):
-        True
+    def has_port(self,port):
+        matchs = (lambda p: p.get_number()==port,self.ports)
+        return len([e for e in matchs])
+    
     def get_port(self,port):
-        if self.has_port(port) :True
+        if self.has_port(port) :
+            return filter(lambda p: p.get_number() == p,self.ports)[0]
+        else:
+            return None
     
     def register_port(self,port):
-        True
+        if !self.has_port(port) : self.ports.append(Port(port,self.ip))
 
 
     def target_ports(self,ports):
-        True
+        for port in ports : self.target_port(port) 
 
     def set_mac(address):
         self.mac.set_address(address)
 
     def has_mac(self):
         return self.has('mac')
-
 
     def get_mac(self):
         return self.mac if self.has_mac() else self.has_mac()
@@ -59,8 +65,7 @@ class Host:
 
     def target_port(self,port):
         if get_targeted_port(port) == None:
-            self.targeted_ports.append(Port(port))
-
+            self.targeted_ports.append(Port(port,self.ip))
 
     def get_ports(self,only_targetted=False):
         return self.targeted_ports if only_targeted is not False  else self.ports

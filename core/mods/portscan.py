@@ -34,7 +34,7 @@ class Portscan (Module):
                     
                 self.add_target(tgt)
             tgt = self.get_actual_target()
-            def process_tgt(tgt):
+            def process_tgt(tgt,MINPORT,MAXPORT):
                 openPorts = []
                 openports = 0
                 if tgt.get_ip() and tgt.get_ip().split('.')[-1] not in ['255','0']:
@@ -42,9 +42,6 @@ class Portscan (Module):
                     closedports = []
                     filteredports = []
                     TGT = tgt.get_ip()
-                    MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
-                    MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
-                    
                     try:
                             if(gethostbyname(TGT)):
                                     pg = 0
@@ -79,10 +76,16 @@ class Portscan (Module):
                         print(e)
             while tgt is not None:
                 if type(tgt) is Host:
-                    process_tgt(tgt)
+                    MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
+                    MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
+                    process_tgt(tgt,MINPORT,MAXPORT)
                 if type(tgt) is Network:
+                    MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
+                    MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
+                    
                     for t in tgt.get_hosts():
-                        process_tgt(t)
+                        print(t,'is target')
+                        process_tgt(t,MINPORT,MAXPORT)
                 tgt = self.next_target()
             self.next_target()
         try:
