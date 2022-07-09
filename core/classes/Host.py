@@ -65,8 +65,6 @@ class Host:
 
     def target_port(self,port):
         if not self.has_port(port):
-            print('hey...')
-            print(self.get_port(port))
             self.register_port(port)
         if self.get_targeted_port(port) == None:
             self.targeted_ports.append(self.get_port(port))
