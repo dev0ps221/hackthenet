@@ -63,7 +63,7 @@ class Host:
 
 
     def get_ports(self,only_targetted=False):
-        return self.targeted_ports if only_targeted else self.ports
+        return self.targeted_ports if only_targeted is not False  else self.ports
 
 
     def __init__(self,ip=None,mac=None):

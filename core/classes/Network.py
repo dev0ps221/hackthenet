@@ -12,11 +12,12 @@ class Network:
     targeted_hosts = []
 
     def get_hosts(self,only_targeted=False):
-        return self.targeted_hosts if only_targeted else self.hosts
+        return self.targeted_hosts if only_targeted is not False else self.hosts
 
     def __init__(self,netrange=""):
         for host in Net(netrange):
             hostObject = Host(host)
             self.hosts.append(hostObject)
+            print('\n'.join([str(e) for e in self.get_hosts()]))
 
 
