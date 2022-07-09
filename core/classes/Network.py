@@ -4,7 +4,6 @@ from scapy.all import Net
 if (__name__ == 'Network'):
     from Host import * 
 else:
-if (__name__ == 'Network'):
     from .Host import * 
 
 class Network:

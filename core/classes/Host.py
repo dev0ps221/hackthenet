@@ -1,9 +1,8 @@
 
 
-if (__name__ == 'Host'):
+if (__name__ == 'Host':
     from Network import * 
 else:
-if (__name__ == 'Host'):
     from .Network import * 
 
 class Host:
