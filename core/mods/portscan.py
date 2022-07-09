@@ -44,8 +44,9 @@ class Portscan (Module):
                     TGT = tgt.get_ip()
                     try:
                             if(gethostbyname(TGT)):
+                                    tgt.target_ports(range(MINPORT,MAXPORT+1))
                                     pg = 0
-                                    arr = (range(MINPORT,MAXPORT+1))  if (MINPORT < MAXPORT > MINPORT) else [MINPORT]
+                                    arr = tgt.get_ports(True)
                                     for port in arr:
                                             system('clear')
                                             print(f"running portscan against {gethostbyname(TGT)}:[{MAXPORT-MINPORT if MINPORT < MAXPORT > MINPORT else MINPORT}] ports on TCP FLOW")

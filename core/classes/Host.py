@@ -29,12 +29,12 @@ class Host:
     
     def get_port(self,port):
         if self.has_port(port) :
-            return filter(lambda p: p.get_number() == p,self.ports)[0]
+            return [e for e in filter(lambda p: p.get_number() == p,self.ports)][0] if len([e for e in filter(lambda p: p.get_number() == p,self.ports)]) else None
         else:
             return None
     
     def register_port(self,port):
-        if !self.has_port(port) : self.ports.append(Port(port,self.ip))
+        if not self.has_port(port) : self.ports.append(Port(port,self.ip))
 
 
     def target_ports(self,ports):
@@ -60,13 +60,15 @@ class Host:
         return self.ip.get_address() if self.has_ip() else self.has_ip()
     
     def get_targeted_port(self,port):
-        matches = self.targeted_ports.filter(lambda a:a.number==port)
+        matches = [e for e in filter(lambda a:a.get_number()==port if a else a,self.targeted_ports)]
         return matches[0] if len(matches) else None  
 
     def target_port(self,port):
-        if !self.has_port(port):
+        if not self.has_port(port):
+            print('hey...')
+            print(self.get_port(port))
             self.register_port(port)
-        if get_targeted_port(port) == None:
+        if self.get_targeted_port(port) == None:
             self.targeted_ports.append(self.get_port(port))
 
     def get_ports(self,only_targeted=False):
