@@ -64,10 +64,12 @@ class Host:
         return matches[0] if len(matches) else None  
 
     def target_port(self,port):
+        if !self.has_port(port):
+            self.register_port(port)
         if get_targeted_port(port) == None:
-            self.targeted_ports.append(Port(port,self.ip))
+            self.targeted_ports.append(self.get_port(port))
 
-    def get_ports(self,only_targetted=False):
+    def get_ports(self,only_targeted=False):
         return self.targeted_ports if only_targeted is not False  else self.ports
 
 

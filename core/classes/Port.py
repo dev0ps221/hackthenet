@@ -4,6 +4,10 @@ class Port:
     ip = None
     status = 'unknown'
 
+    def switch_status(self,status):
+        if status in ['open','closed','filtered','unknown']:
+            self.status = status
+
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
