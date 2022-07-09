@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from scapy.all import valid_ip,valid_net as valid_network
 import netifaces 
 import pyfiglet
 from os import system,getcwd,listdir
@@ -14,8 +15,10 @@ actualmod = None
 
 if __name__ == 'Shell':
     from Command import *
+    from Core import * 
 else :
     from .Command import *
+    from .Core import * 
 
 def clear(self,txt='TEK TECH'):
     system('clear')
@@ -74,6 +77,19 @@ def _list(self,_type=None):
 
     else:
         return self.show_usage()
+
+def target(command,address):
+    target = None
+    if command.shell.valid_ip(address):
+        target = Host(address)
+        command.shell.mod.add_target(target)
+    elif command.shell.valid_network(address):
+        target = Network(address)
+        print(f"{address} is not a valid ip address")
+        command.shell.mod.add_target(target)
+    else :
+        print(f"{address} is not a valid network representation")
+
 
 
 def load(self,name=None) :
@@ -143,13 +159,28 @@ def _exit(command):
     command.shell.stop()
     exit(1)
         
+def _set(command,name=None,val=None):
+    if(name and val):
+        command.shell.mod.set_config(name,val)
+    else:
+        return command.help()
+                
+def _get(command,name=None):
+    if(name):
+        val =  command.shell.get_config(name)
+        return val if val else f"configvar [{Fore.RED}{name}{Style.RESET_ALL}] inconnue"
+    else:
+        return command.help()
 
 shellCmds = [
     ['back',Command('back',_back,'exits the actual module, if nomod exits theshell')],
     ['exit',Command('exit',_exit,'exits theshell')],
     ['quit',Command('quit',_exit,'allias for exit')],
+    ['set',Command('set',_set,'sets a config variable for the current shell and if a module is loaded, for the corresponding module too','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'set'+Style.RESET_ALL+' '+Fore.GREEN+'configname'+' '+Fore.GREEN+'configval'+Fore.BLUE+' \t]\n'+Style.RESET_ALL)],
+    ['get',Command('get',_get,'reveals a config variable for the current shell and if a module is loaded, for the corresponding module too','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'get'+Style.RESET_ALL+' '+Fore.GREEN+'configname'+' \t]\n'+Style.RESET_ALL)],
     ['clear',Command('clear',clear,'clears the terminal screen')],
     ['help',Command('help',_help,'shows help','\n\t[\t help \t]\nOR\n\t[\t help command \t]')],
+    ['target',Command('target',target,'adds a target to the target list','\n\t[\t target targetaddress (can be a network representation or just an ip address or even a mac address) \t]')],
     ['pymod',Command('pymod',pymod)],
     ['load',Command('load',load,'loads a module and switch to its shell','\n\t[\t load modulename\t]')],
     ['list',Command('list',_list,'list all the known matches to the requested type','\n\t[\t '+Style.RESET_ALL+Fore.BLUE+'list'+Style.RESET_ALL+' '+Fore.GREEN+'typename'+Style.RESET_ALL+' \t]\n\t typenames\n\t\t > '+Fore.GREEN+' modules '+Style.RESET_ALL+' \n\t\t > '+Fore.GREEN+' cmds '+Style.RESET_ALL+' \n\t\t > '+Fore.GREEN+' procs '+Style.RESET_ALL+'\n')],
@@ -158,6 +189,7 @@ shellCmds = [
 
 class Shell:
     cmds = {}
+    config = {'targets':[]}
     def setPrompt(self,prompt = 'hackthenet>'):
         self.prompt = prompt
     
@@ -166,6 +198,24 @@ class Shell:
             cmd,args = self.getCmd()
             self.process_cmd(cmd,*args)
     
+    def ask(txt,suf='>'):
+        print(txt)
+        return input(f"{Back.RED}{self.prompt} {suf}{Style.RESET_ALL}")
+
+    def get_ip(self,modprompt='>'):
+        print('\t\t\t\t\tgive me a target ip')
+        return input(f'{self.prompt} @{modprompt}')  
+
+    def valid_ip(self,ip):
+        return valid_ip(ip)
+
+    def valid_network(self,net):
+        return valid_network(net)
+
+    def get_port(self,modprompt='>',text='\t\t\t\t\tgive me a target port'):
+        print(text)
+        return int(input(f'{self.prompt} @{modprompt}'))
+
     def process_cmd(self,cmd,*args):
         command = self.cmds.get(cmd)
         if command != None:
@@ -189,6 +239,44 @@ class Shell:
                     
                     
         return self.process_results(command,result)
+
+    def set_config(self,name,val):
+        self.config[name] = val
+
+
+    def get_configs(self):
+        return []
+
+    def get_config(self,name):
+        try:
+            return self.config[name] 
+        except:
+            return None
+
+    def unset_config(self,name):
+        del(self.config[name])
+        self.config[name] = None
+
+
+    def process_target(self,address):
+        target = None
+        if self.valid_ip(address):
+            target = Host(address)
+        elif self.valid_network(address):
+            target = Network(address)
+            print(f"{address} is not a valid IPv4 address")
+        else :
+            print(f"{address} is not a network representation address")
+        return target
+
+    def add_target(self,target):
+        self.config['targets'].append(target)
+
+    def remove_target(self,target):
+        self.config['targets'] = []
+        for tgt in self._targets:
+            self.add_target(tgt) if tgt != target else None
+
 
     def process_results(self,cmd,result,listed=False):
         if type(result) is list:
@@ -260,8 +348,8 @@ class Shell:
             name,action = cmd 
             self.addCommand(name,action)
 
-    def getCmd(self):
-        return self.parseInput(input("{}{} {}".format(Back.RED,self.prompt,Style.RESET_ALL)))
+    def getCmd(self,txt=None):
+        return self.parseInput(input("{}{} {}".format(Back.RED,self.prompt if txt == None else txt,Style.RESET_ALL)))
 
     def __init__(self,cmds={},mod='nomod'):
         self.run = False
@@ -270,7 +358,6 @@ class Shell:
         self.mod = mod
         self.lastmod = self.mod
         self.setPrompt()
-        self.config = {}
         self.set_ifaces()
 
 
