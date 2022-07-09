@@ -77,7 +77,9 @@ class Port:
 class Network:
     hosts = []
     targeted_hosts = []
-    
+
+    def get_hosts(self,only_targetted=False):
+        return self.targeted_hosts if only_targeted else self.hosts
 
     def __init__(self,netrange=[]):
         print(netrange)
@@ -97,12 +99,12 @@ class Host:
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
     def has_port(self):
-
+        True
     def get_port(self,port):
-        if self.has_port(port)
+        if self.has_port(port) :True
     
     def register_port(self,port):
-        
+        True
 
 
     def target_ports(self,ports):
@@ -135,6 +137,11 @@ class Host:
     def target_port(self,port):
         if get_targeted_port(port) == None:
             self.targeted_ports.append(Port(port))
+
+
+    def get_ports(self,only_targetted=False):
+        return self.targeted_ports if only_targeted else self.ports
+
 
     def __init__(self,ip=None,mac=None):
         if ip : self.set_ip(ip)
