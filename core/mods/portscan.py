@@ -5,6 +5,7 @@ from sys import path
 import netifaces
 import scapy
 
+
 #We make sur to avoid import issues | #nous prenons soin d'eviter les erreurs d'importation
 insert = path.insert
 here = '/'.join(__file__.split('/')[:-1])
@@ -59,7 +60,7 @@ class Portscan (Module):
                                                     openPorts.append(port)
                                                     openports+=1
                                                 conn.close()
-                                        except TimeoutError as e:
+                                        except timeout as e:
                                             filteredports.append(port)
                                         except ConnectionRefusedError as e:
                                                 closedports.append(port)
