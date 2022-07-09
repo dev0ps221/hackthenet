@@ -24,18 +24,18 @@ class Portscan (Module):
 
         def _do(ports=None):
             tgt = None
-            print(self.actual_target)
             if self.actual_target[1] :
                 tgt = self.actual_target[1]
             else:
                 while tgt == None :                
                     gottgt = self.shell.get_ip('>')
                     tgt = self.shell.process_target(gottgt if self.shell.valid_ip(gottgt) or self.shell.valid_network(gottgt) else None)
-                    print(tgt)
+                    
                 self.add_target(tgt)
+            tgt = self.actual_target
             openPorts = []
             openports = 0
-            while tgt:
+            while tgt is not None:
                 closedports = []
                 filteredports = []
                 TGT = tgt.get_ip()
@@ -74,10 +74,8 @@ class Portscan (Module):
                 except Exception as e:
                         print('the specified host address is wrong or the host is not up !!')
                 tgt = self.next_target()
-            self.next_target()
         try:
-            while True:
-                _do(ports)
+            _do(ports)
         except KeyboardInterrupt as e:
             print('closing...')
 
