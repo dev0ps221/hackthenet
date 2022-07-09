@@ -58,15 +58,15 @@ class Portscan (Module):
                                                 if conn:
                                                     openPorts.append(port)
                                                     openports+=1
-                                                else:
-                                                    filteredports.append(port)
                                                 conn.close()
+                                        except TimeoutError as e:
+                                            filteredports.append(port)
                                         except ConnectionRefusedError as e:
                                                 closedports.append(port)
                                                 print(f'\n encountered errors -> .{e} for port :{port}')
                                 print('',end='\n')
                                 print('scan results')
-                                [print(f'\t - port {openPorts[p]} is open') for p in range(len(openports))]
+                                [print(f'\t - port {openPorts[p]} is open') for p in range(openports)]
                                 [print(f'\t - port {p} is open|filtered') for p in filteredports]
                                 print(f'\t - {len(closedports)} closed ports')
                                 
@@ -78,6 +78,7 @@ class Portscan (Module):
                         print(TGT,'mmmm')
                         print('the specified host address is wrong or the host is not up !!')
                 tgt = self.next_target()
+            self.next_target()
         try:
             _do(ports)
         except KeyboardInterrupt as e:
