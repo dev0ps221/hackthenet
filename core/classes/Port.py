@@ -11,7 +11,7 @@ class Port:
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
-    def set_number(port):
+    def set_number(self,port):
         self.number = port
 
     def has_number(self):
@@ -33,6 +33,6 @@ class Port:
 
     def __init__(self,port=None,ip=None):
         if port:
-            set_number(port)
+            self.set_number(port)
         if ip:
-            set_ip(ip)
+            self.set_ip(ip)

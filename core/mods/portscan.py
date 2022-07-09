@@ -19,11 +19,12 @@ else:
 class Portscan (Module):
 
 
-
+    last_results = []
 
     def run(self,module,tgt=None,ports=None):
 
         def _do(ports=None):
+            self.last_results.append([])
             tgt = None
             if self.actual_target[1] :
                 tgt = self.actual_target[1]
@@ -38,7 +39,6 @@ class Portscan (Module):
                 openPorts = []
                 openports = 0
                 if tgt.get_ip() and tgt.get_ip().split('.')[-1] not in ['255','0']:
-                    
                     closedports = []
                     filteredports = []
                     TGT = tgt.get_ip()
@@ -48,12 +48,12 @@ class Portscan (Module):
                                     pg = 0
                                     arr = tgt.get_ports(True)
                                     for port in arr:
+                                            port = port.get_number()
                                             system('clear')
                                             print(f"running portscan against {gethostbyname(TGT)}:[{MAXPORT-MINPORT if MINPORT < MAXPORT > MINPORT else MINPORT}] ports on TCP FLOW")
                                             pg += 1
                                             print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                             try:
-                                                    input()
                                                     conn = create_connection((TGT,port),timeout=5)
                                                     if conn:
                                                         tgt.register_open_port(port)
@@ -74,22 +74,28 @@ class Portscan (Module):
                     MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
                     process_tgt(tgt,MINPORT,MAXPORT)
-                    print('results')
-                    [print(p,' is open')  for p in filter(lambda p: p.status == 'open' if p else None,tgt.get_ports(True))]
+                    self.last_results[-1].append(f'results for {tgt.get_ip()}')
+                    [self.last_results[-1].append('\t'+str(p.get_number())+' is open')  for p in filter(lambda p: p.status == 'open' if p else None,tgt.get_ports(True))]
                 if type(tgt) is Network:
                     MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
                     
                     for t in tgt.get_hosts():
-                        print(t,'is target')
                         process_tgt(t,MINPORT,MAXPORT)
-                
+                    for tgt in tgt.get_hosts():
+                        self.last_results[-1].append(f'results for {tgt.get_ip()}')
+                        [self.last_results[-1].append('\t'+str(p.get_number())+' is open')  for p in filter(lambda p: p.status == 'open' if p else None,tgt.get_ports(True))]
                 tgt = self.next_target()
             self.next_target()
         try:
             _do(ports)
+            self.results()
         except KeyboardInterrupt as e:
             print('closing...')
+
+    def results(self):
+        if len(self.last_results):
+            for result in self.last_results[-1] : print(result) 
 
     def help(self):
         return f"""

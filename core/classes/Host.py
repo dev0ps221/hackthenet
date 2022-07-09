@@ -32,10 +32,7 @@ class Host:
     def get_port(self,port):
         match = None
         for p in self.ports:
-            print(p)
-            print(port)
             if p.get_number() == port : match = p
-            input()
         return match
     
     def register_port(self,port):
