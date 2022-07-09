@@ -42,7 +42,7 @@ class Portscan (Module):
                 TGT = tgt.get_ip()
                 MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                 MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
-                print(TGT,'mmmm')
+                
                 try:
                         if(gethostbyname(TGT)):
                                 pg = 0
@@ -61,18 +61,21 @@ class Portscan (Module):
                                                 else:
                                                     filteredports.append(port)
                                                 conn.close()
-                                        except Exception as e:
+                                        except ConnectionRefusedError as e:
                                                 closedports.append(port)
                                                 print(f'\n encountered errors -> .{e} for port :{port}')
                                 print('',end='\n')
                                 print('scan results')
-                                [print(f'\t - port {openPorts[p]} is open') for p in openports]
+                                [print(f'\t - port {openPorts[p]} is open') for p in range(len(openports))]
                                 [print(f'\t - port {p} is open|filtered') for p in filteredports]
                                 print(f'\t - {len(closedports)} closed ports')
                                 
                         else:
+                                print(TGT,'mmmm')
                                 print('the specified host address is wrong or the host is not up !!')
                 except Exception as e:
+                        print(e)
+                        print(TGT,'mmmm')
                         print('the specified host address is wrong or the host is not up !!')
                 tgt = self.next_target()
         try:
