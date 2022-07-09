@@ -52,6 +52,8 @@ class Module:
         self.config['targets'].append(target)
         self.shell.add_target(target)
         print(f'appended target {target}')
+        self.actual_target = (-1,None)
+        self.next_target()
 
     def remove_target(self,target):
         self.config['targets'] = []
@@ -111,9 +113,12 @@ class Module:
     def next_target(self):
         idx,target = self.actual_target
         targets_size = len(self._targets())
-        idx+=1
-        if idx < targets_size :
-            self.actual_target = idx,self._targets()[idx]
+        if targets_size:
+            if idx >=0 and idx < targets_size:
+                idx+=1
+                self.actual_target = idx,self._targets()[idx]
+            else  :
+                self.actual_target = -1,None
         else  :
             self.actual_target = -1,None
         return self.actual_target[1]

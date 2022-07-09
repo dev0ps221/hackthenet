@@ -96,6 +96,7 @@ class Host:
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
     def target_ports(self,shell):
+        True
 
 
 
