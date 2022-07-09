@@ -198,6 +198,9 @@ class Shell:
             cmd,args = self.getCmd()
             self.process_cmd(cmd,*args)
     
+    def ask(txt,suf='>'):
+        print(txt)
+        return input(f"{Back.RED}{self.prompt} {suf}{Style.RESET_ALL}")
 
     def get_ip(self,modprompt='>'):
         print('\t\t\t\t\tgive me a target ip')
@@ -345,8 +348,8 @@ class Shell:
             name,action = cmd 
             self.addCommand(name,action)
 
-    def getCmd(self):
-        return self.parseInput(input("{}{} {}".format(Back.RED,self.prompt,Style.RESET_ALL)))
+    def getCmd(self,txt=None):
+        return self.parseInput(input("{}{} {}".format(Back.RED,self.prompt if txt == None else txt,Style.RESET_ALL)))
 
     def __init__(self,cmds={},mod='nomod'):
         self.run = False

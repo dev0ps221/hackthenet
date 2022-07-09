@@ -135,5 +135,12 @@ class Module:
         self.initialize_actions()
         self.next_target()
         self.config['actual_target'] = self.actual_target
+        if hasattr(self,'run'):
+            self.register_action(
+                'run',self.run
+            )
+        else:
+            print('a valid module should have a run method...')
+            return None
 
 

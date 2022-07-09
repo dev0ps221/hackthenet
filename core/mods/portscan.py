@@ -20,7 +20,7 @@ class Portscan (Module):
 
 
 
-    def simple_scan(self,module,tgt=None,ports=None):
+    def run(self,module,tgt=None,ports=None):
 
         def _do(ports=None):
             tgt = None
@@ -29,8 +29,9 @@ class Portscan (Module):
                 tgt = self.actual_target[1]
             else:
                 while tgt == None :                
-                    gottgt = self.shell.get_ip('simplescan>')
+                    gottgt = self.shell.get_ip('>')
                     tgt = self.shell.process_target(gottgt if self.shell.valid_ip(gottgt) or self.shell.valid_network(gottgt) else None)
+                    print(tgt)
                 self.add_target(tgt)
             openPorts = []
             openports = 0
@@ -38,8 +39,8 @@ class Portscan (Module):
                 closedports = []
                 filteredports = []
                 TGT = tgt.get_ip()
-                MINPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the minimum port to check')
-                MAXPORT = self.shell.get_port('simplescan>','\t\t\t\t\tgive me the maximum port to check')
+                MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
+                MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
                 try:
                         if(gethostbyname(TGT)):
                                 pg = 0
@@ -87,9 +88,6 @@ class Portscan (Module):
 
     def __init__(self,name='portscan'):
         Module.__init__(self,name)
-        self.register_action(
-            'simplescan',self.simple_scan
-        )
 
 
 
