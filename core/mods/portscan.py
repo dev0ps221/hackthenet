@@ -34,11 +34,9 @@ class Portscan (Module):
                     
                 self.add_target(tgt)
             tgt = self.get_actual_target()
-            openPorts = []
-            openports = 0
             def process_tgt(tgt):
-                global openports
-                global openPorts
+                openPorts = []
+                openports = 0
                 if tgt.get_ip() and tgt.get_ip().split('.')[-1] not in ['255','0']:
                     
                     closedports = []
@@ -79,8 +77,6 @@ class Portscan (Module):
                                     print('the specified host address is wrong or the host is not up !!')
                     except Exception as e:
                         print(e)
-                        print(TGT,'mmmm')
-                        print('the specified host address is wrong or the host is not up !!')
             while tgt is not None:
                 if type(tgt) is Host:
                     process_tgt(tgt)
