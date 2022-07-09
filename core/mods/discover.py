@@ -69,6 +69,15 @@ class Discover (Module):
                     res = self.shell.process_cmd(cmd,*args)
             return res
 
+    def network(self):
+
+        def get_targetted():
+            print('which network do you want to discover ?\n[type a network C.I.D.R. representation')
+            print('choose between :\n  ips\n  ifaces\n  exit')
+            return input(f'{self.shell.prompt}@local>')
+        netrep = get_targetted()
+        if self.shell.valid_network(netrep)
+
 
     def help(self):
         return f"""
