@@ -56,20 +56,14 @@ class Portscan (Module):
                                                     conn = create_connection((TGT,port),timeout=5)
                                                     print(conn)
                                                     if conn:
-                                                        openPorts.append(port)
-                                                        openports+=1
+                                                        tgt.register_open_port(port)
                                                         conn.close()
                                             except timeout as e:
-                                                filteredports.append(port)
+                                                    tgt.register_filtered_port(port)
                                             except ConnectionRefusedError as e:
-                                                    closedports.append(port)
+                                                    tgt.register_closed_port(port)
                                                     print(f'\n encountered errors -> .{e} for port :{port}')
                                     print('',end='\n')
-                                    print('scan results')
-                                    [print(f'\t - port {openPorts[p]} is open') for p in range(openports)]
-                                    [print(f'\t - port {p} is open|filtered') for p in filteredports]
-                                    print(f'\t - {len(closedports)} closed ports')
-                                    
                             else:
                                     print(TGT,'mmmm')
                                     print('the specified host address is wrong or the host is not up !!')
@@ -80,6 +74,8 @@ class Portscan (Module):
                     MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
                     process_tgt(tgt,MINPORT,MAXPORT)
+                    print('results')
+                    [print(p,' is open')  for p in filter(lambda p: p.status == 'open',tgt.get_ports(True))]
                 if type(tgt) is Network:
                     MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
@@ -87,6 +83,7 @@ class Portscan (Module):
                     for t in tgt.get_hosts():
                         print(t,'is target')
                         process_tgt(t,MINPORT,MAXPORT)
+                
                 tgt = self.next_target()
             self.next_target()
         try:

@@ -72,6 +72,34 @@ class Host:
     def get_ports(self,only_targeted=False):
         return self.targeted_ports if only_targeted is not False  else self.ports
 
+    def register_open_port(self,port):
+        if not self.has_port(port):
+            self.register_port(port)
+        self.get_port(port).switch_status('open')
+        if self.get_targeted_port(port) is not None:
+            self.get_targeted_port(port).switch_status('open')
+
+    def register_closed_port(self,port):
+        if not self.has_port(port):
+            self.register_port(port)
+        self.get_port(port).switch_status('closed')
+        if self.get_targeted_port(port) is not None:
+            self.get_targeted_port(port).switch_status('closed')
+
+    def register_filtered_port(self,port):
+        if not self.has_port(port):
+            self.register_port(port)
+        self.get_port(port).switch_status('filtered')
+        if self.get_targeted_port(port) is not None:
+            self.get_targeted_port(port).switch_status('filtered')
+
+    def register_unknown_port(self,port):
+        if not self.has_port(port):
+            self.register_port(port)
+        self.get_port(port).switch_status('unknown')
+        if self.get_targeted_port(port) is not None:
+            self.get_targeted_port(port).switch_status('unknown')
+
 
     def __init__(self,ip=None,mac=None):
         if ip : 
