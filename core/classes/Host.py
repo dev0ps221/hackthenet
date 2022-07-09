@@ -1,15 +1,17 @@
 
 
-if (__name__ == 'Host':
-    from Network import * 
+if __name__ == 'Host':
+    from IpAddress import * 
+    from MacAddress import * 
 else:
-    from .Network import * 
+    from .IpAddress import * 
+    from .MacAddress import * 
 
 class Host:
     
     ip = IpAddress()
     mac = MacAddress()
-    network = Network('/24')
+    network = None
     ports = []
     targeted_ports = []
 
