@@ -53,8 +53,8 @@ class Portscan (Module):
                                             pg += 1
                                             print(f'progress : {pg}/{MAXPORT-(MINPORT if (MINPORT < MAXPORT > MINPORT) else len([MINPORT]))}',end='\r')
                                             try:
+                                                    input()
                                                     conn = create_connection((TGT,port),timeout=5)
-                                                    print(conn)
                                                     if conn:
                                                         tgt.register_open_port(port)
                                                         conn.close()
@@ -75,7 +75,7 @@ class Portscan (Module):
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
                     process_tgt(tgt,MINPORT,MAXPORT)
                     print('results')
-                    [print(p,' is open')  for p in filter(lambda p: p.status == 'open',tgt.get_ports(True))]
+                    [print(p,' is open')  for p in filter(lambda p: p.status == 'open' if p else None,tgt.get_ports(True))]
                 if type(tgt) is Network:
                     MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                     MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')

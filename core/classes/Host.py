@@ -24,14 +24,19 @@ class Host:
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
     def has_port(self,port):
-        matchs = (lambda p: p.get_number()==port,self.ports)
-        return len([e for e in matchs])
+        match = None
+        for p in self.ports:
+            if p.get_number() == port : match = p.get_number() == port 
+        return match
     
     def get_port(self,port):
-        if self.has_port(port) :
-            return [e for e in filter(lambda p: p.get_number() == p,self.ports)][0] if len([e for e in filter(lambda p: p.get_number() == p,self.ports)]) else None
-        else:
-            return None
+        match = None
+        for p in self.ports:
+            print(p)
+            print(port)
+            if p.get_number() == port : match = p
+            input()
+        return match
     
     def register_port(self,port):
         if not self.has_port(port) : self.ports.append(Port(port,self.ip))
@@ -73,7 +78,7 @@ class Host:
         return self.targeted_ports if only_targeted is not False  else self.ports
 
     def register_open_port(self,port):
-        if not self.has_port(port):
+        if self.has_port(port):
             self.register_port(port)
         self.get_port(port).switch_status('open')
         if self.get_targeted_port(port) is not None:
