@@ -32,15 +32,17 @@ class Portscan (Module):
                     tgt = self.shell.process_target(gottgt if self.shell.valid_ip(gottgt) or self.shell.valid_network(gottgt) else None)
                     
                 self.add_target(tgt)
-            tgt = self.actual_target
+            tgt = self.get_actual_target()
             openPorts = []
             openports = 0
             while tgt is not None:
+
                 closedports = []
                 filteredports = []
                 TGT = tgt.get_ip()
                 MINPORT = self.shell.get_port('>','\t\t\t\t\tgive me the minimum port to check')
                 MAXPORT = self.shell.get_port('>','\t\t\t\t\tgive me the maximum port to check')
+                print(TGT,'mmmm')
                 try:
                         if(gethostbyname(TGT)):
                                 pg = 0
@@ -63,7 +65,6 @@ class Portscan (Module):
                                                 closedports.append(port)
                                                 print(f'\n encountered errors -> .{e} for port :{port}')
                                 print('',end='\n')
-                                system('clear')
                                 print('scan results')
                                 [print(f'\t - port {openPorts[p]} is open') for p in openports]
                                 [print(f'\t - port {p} is open|filtered') for p in filteredports]
