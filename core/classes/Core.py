@@ -43,6 +43,8 @@ class MacAddress:
 class Port:
     number = None
     ip = None
+    status = 'unknown'
+
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
@@ -87,7 +89,6 @@ class Host:
     network = Network()
     ports = []
     targeted_ports = []
-    open_ports = []
 
     def __str__(self):
         return f"HOST OBJECT AT {self.ip if self.ip else ' still an unknown ip address'}"
@@ -95,10 +96,17 @@ class Host:
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
 
-    def target_ports(self,shell):
+    def has_port(self):
+
+    def get_port(self,port):
+        if self.has_port(port)
+    
+    def register_port(self,port):
+        
+
+
+    def target_ports(self,ports):
         True
-
-
 
     def set_mac(address):
         self.mac.set_address(address)
