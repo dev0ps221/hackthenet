@@ -6,7 +6,6 @@ if (__name__ == 'Network'):
 else:
     from .Host import * 
 
-print(Host)
 class Network:
     hosts = []
     targeted_hosts = []
@@ -15,9 +14,10 @@ class Network:
         return self.targeted_hosts if only_targeted is not False else self.hosts
 
     def __init__(self,netrange=""):
-        for host in Net(netrange):
-            hostObject = Host(host)
+        self.hosts = []
+        for host in [e for e in Net(netrange)]:
+            hst = str(host)
+            hostObject = Host(hst)
             self.hosts.append(hostObject)
-            print('\n'.join([str(e) for e in self.get_hosts()]))
 
 

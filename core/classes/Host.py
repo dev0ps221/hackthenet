@@ -9,7 +9,7 @@ else:
 
 class Host:
     
-    ip = IpAddress()
+    ip = None
     mac = MacAddress()
     network = None
     ports = []
@@ -67,6 +67,7 @@ class Host:
 
 
     def __init__(self,ip=None,mac=None):
-        if ip : self.set_ip(ip)
+        if ip : 
+            self.ip = IpAddress(ip)
         if mac : self.set_mac(mac)
 
