@@ -116,11 +116,14 @@ class Module:
         if targets_size:
             if idx >=0 and idx < targets_size:
                 idx+=1
-                self.actual_target = idx,self._targets()[idx]
             else  :
-                self.actual_target = -1,None
+                if idx < 0 :
+                    idx = 0
+                else : 
+                    idx = -1
         else  :
-            self.actual_target = -1,None
+            idx = -1
+        self.actual_target = idx,self._targets()[idx]
         return self.actual_target[1]
 
 
