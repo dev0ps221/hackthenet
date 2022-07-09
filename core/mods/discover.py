@@ -2,6 +2,7 @@ from os import getcwd
 from sys import path
 import socket
 import netifaces
+from scapy.all import get_if_list,get_if_addr,get_working_if
 
 
 #We make sur to avoid import issues | #nous prenons soin d'eviter les erreurs d'importation
@@ -24,7 +25,7 @@ class Discover (Module):
 
     ifaddresses = {}
     def get_local_ips(self):
-        ifaddrs = [(iface,[(ifelem,netifaces.ifaddresses(iface)[ifelem]) for ifelem in netifaces.ifaddresses(iface)]) for iface in self.get_local_ifaces()]
+        ifaddrs = [(iface,{f"{iface}",get_if_addr(iface)}) for iface in self.get_local_ifaces()]
         
         for (iface,data) in ifaddrs:
             self.ifaddresses[iface] = {}
@@ -41,7 +42,7 @@ class Discover (Module):
     def update_ip_addresses(self):
         print([*filter(lambda x : x == '2',self.ifaddresses.keys())])
     def get_local_ifaces(self):
-        return netifaces.interfaces()
+        return get_if_list()
 
     def local(self,module,arg=None):
         if arg:
@@ -69,14 +70,15 @@ class Discover (Module):
                     res = self.shell.process_cmd(cmd,*args)
             return res
 
-    def network(self):
+    def network(self,arg):
 
         
 
         def get_targetted():
             print('which network do you want to discover ?\n[type a network representation]\n\tex : 192.168.1.1/24\t[type enter for a local network discovery]')
-            return self.shell.getCmd(self.shell,f'@network>')
+            return self.shell.getCmd(f'@network>')
         netrep = get_targetted()
+        netrep = netrep if netrep != "" else gateways()['default'][AF_INET][0] 
         print(self.shell.valid_network(netrep))
 
 
