@@ -81,12 +81,14 @@ class Discover (Module):
 
         def get_targetted():
             print('which network do you want to discover ?\n[type a network representation]\n\tex : 192.168.1.1/24\t[type enter for a local network discovery]')
-            return self.shell.getCmd(f'@network>')
+            return self.shell.getCmd(f'@network>')[0]
         netrep = get_targetted()
-        netrep = netrep if netrep != "" else (ip_interface(all.conf.route.route()[2]+'/'+broadcastmask(all.conf.route.get_if_bcast(gateways()['default'][2][1])[0])).network)
+        netrep = netrep if netrep != "" else ip_interface(all.conf.route.route()[2]+'/'+broadcastmask(all.conf.route.get_if_bcast(gateways()['default'][2][1])[0])).network
+        if self.shell.valid_network(netrep):
+            self.add_target(self.shel.process_target(netrep))
+        else:
+            return 'SoMEthIng WRoNg HapPeNed !!! ?'
         print(netrep)
-        print(self.shell.valid_network())
-
 
     def help(self):
         return f"""
