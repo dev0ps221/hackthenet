@@ -10,6 +10,7 @@ class Module:
 
     actual_target = (-1,None)
     actions = {}
+    last_results = []
 
     def help(self):
         return f"""

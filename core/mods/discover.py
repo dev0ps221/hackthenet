@@ -75,7 +75,6 @@ class Discover (Module):
 
     def network(self,arg):
 
-        
         def broadcastmask(broadcast):
             return '.'.join([e for e in map(lambda t: '255' if t != '255' else '0',broadcast.split('.'))])
 
@@ -86,6 +85,10 @@ class Discover (Module):
         netrep = netrep if netrep != "" else ip_interface(all.conf.route.route()[2]+'/'+broadcastmask(all.conf.route.get_if_bcast(gateways()['default'][2][1])[0])).network
         if self.shell.valid_network(netrep):
             self.add_target(self.shel.process_target(netrep))
+            tgt = self.get_actual_target()
+            while tgt is not None:
+                self.next_target()
+            self.next_target()
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'
         print(netrep)

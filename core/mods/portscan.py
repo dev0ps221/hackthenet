@@ -19,7 +19,6 @@ else:
 class Portscan (Module):
 
 
-    last_results = []
 
     def run(self,module,tgt=None,ports=None):
 
