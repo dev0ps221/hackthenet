@@ -92,9 +92,6 @@ class Portscan (Module):
         except KeyboardInterrupt as e:
             print('closing...')
 
-    def results(self):
-        if len(self.last_results):
-            for result in self.last_results[-1] : print(result) 
 
     def help(self):
         return f"""

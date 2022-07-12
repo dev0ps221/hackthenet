@@ -128,6 +128,12 @@ class Module:
     def get_actual_target(self):
         return self._targets()[self.actual_target[0]] if self.actual_target[0] >= 0 else None
 
+    def reset_results(self):
+        self.last_results = []
+
+    def results(self):
+        if len(self.last_results):
+            for result in self.last_results[-1] : print(result) 
 
     def __init__(self,name,config={'targets':[]}):
         self.name = name
