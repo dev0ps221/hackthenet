@@ -89,15 +89,18 @@ class Discover (Module):
             self.add_target(target)
             def _done():
                 print(target.get_active_hosts())
-            made = 0
             for t in target.get_hosts():
                 if t.get_ip() and t.get_ip().split('.')[-1] not in ['255','0']:
                     def _do(t,target,_done):
                         t.ping()
-                        made+=1
-                        if made+1 == len(target.get_hosts()) :
+                        _do.made.append(1)
+                        if len(_do.made) == len(target.get_hosts())-2 :
                             _done()
-                    Thread(target=do,args=(t,target,_done,)).start()
+                        else:
+                            # print(len(target.get_hosts()))
+                        print(len(_do.made))
+                    _do.made = []
+                    Thread(target=_do,args=(t,target,_done,)).start()
                     
             # print('is our acutal target')
         else:
