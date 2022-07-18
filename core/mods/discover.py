@@ -2,6 +2,7 @@ from os import getcwd
 from sys import path
 import socket
 import netifaces
+from threading import Thread
 from netifaces import gateways
 from ipaddress import ip_interface
 from scapy.all import get_if_list,get_if_addr,get_working_if,conf
@@ -86,11 +87,18 @@ class Discover (Module):
         if self.shell.valid_network(netrep):
             target = self.shell.process_target(str(netrep))
             self.add_target(target)
+            def _done():
+                print(target.get_active_hosts())
+            made = 0
             for t in target.get_hosts():
                 if t.get_ip() and t.get_ip().split('.')[-1] not in ['255','0']:
-                    print(t)
-                    t.ping()
-            print(target.get_active_hosts())
+                    def _do(t,target,_done):
+                        t.ping()
+                        made+=1
+                        if made+1 == len(target.get_hosts()) :
+                            _done()
+                    Thread(target=do,args=(t,target,_done,)).start()
+                    
             # print('is our acutal target')
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'
