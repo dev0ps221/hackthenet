@@ -85,7 +85,6 @@ def target(command,address):
         command.shell.mod.add_target(target)
     elif command.shell.valid_network(address):
         target = Network(address)
-        print(f"{address} is not a valid ip address")
         command.shell.mod.add_target(target)
     else :
         print(f"{address} is not a valid network representation")
@@ -264,7 +263,6 @@ class Shell:
             target = Host(address)
         elif self.valid_network(address):
             target = Network(address)
-            print(f"{address} is not a valid IPv4 address")
         else :
             print(f"{address} is not a network representation address")
         return target

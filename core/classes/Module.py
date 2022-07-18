@@ -52,7 +52,6 @@ class Module:
     def add_target(self,target):
         self.config['targets'].append(target)
         self.shell.add_target(target)
-        print(f'appended target {target}')
         self.actual_target = (-1,None)
         self.next_target()
 

@@ -1,5 +1,4 @@
-from scapy.all import conf,IP,ICMP,sr1
-conf.verb = 0
+from os import popen
 
 if __name__ == 'Host':
     from IpAddress import * 
@@ -21,6 +20,11 @@ class Host:
 
     def __str__(self):
         return f"HOST OBJECT AT {self.ip if self.ip else ' still an unknown ip address'}"
+
+
+    def __repr__(self):
+        return f"HOST OBJECT AT {self.ip if self.ip else ' still an unknown ip address'}"
+
 
     def has(self,name=None):
         return hasattr(self,name) and getattr(self,name) is not None if name else name
@@ -108,9 +112,7 @@ class Host:
         ip = self.get_ip()
         if ip:
             try:
-                packet = IP(dst=ip)/ICMP()
-                reply = sr1(packet, timeout=1)
-                if reply is not None:
+                if f'64 bytes from {ip}' in popen(f'ping {ip} -c 3').read():
                     self.up = True
             except Exception as e:
                 print(e)

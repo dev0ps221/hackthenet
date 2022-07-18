@@ -87,21 +87,22 @@ class Discover (Module):
         if self.shell.valid_network(netrep):
             target = self.shell.process_target(str(netrep))
             self.add_target(target)
-            def _done():
-                print(target.get_active_hosts())
+            notDone = True
+            def _do(t,target):
+                t.ping()
+                _do.made+=1
+            
+            _do.made = 0
+        
             for t in target.get_hosts():
                 if t.get_ip() and t.get_ip().split('.')[-1] not in ['255','0']:
-                    def _do(t,target,_done):
-                        t.ping()
-                        _do.made.append(1)
-                        if len(_do.made) == len(target.get_hosts())-2 :
-                            _done()
-                        else:
-                            # print(len(target.get_hosts()))
-                        print(len(_do.made))
-                    _do.made = []
-                    Thread(target=_do,args=(t,target,_done,)).start()
-                    
+                    Thread(target=_do,args=(t,target,)).start()
+
+            while notDone:
+                if _do.made == len(target.get_hosts())-2 :
+                    notDone = False
+            
+            print('\n(ACTIVE)'.join([str(host) for host in target.get_active_hosts()]))        
             # print('is our acutal target')
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'
