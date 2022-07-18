@@ -107,10 +107,14 @@ class Host:
     def ping(self):
         ip = self.get_ip()
         if ip:
-            packet = IP(dst=ip, ttl=2)/ICMP()
-            reply = sr1(packet)
-            if reply is not None:
-                 self.up = True
+            try:
+                packet = IP(dst=ip, ttl=2)/ICMP()
+                reply = sr1(packet)
+                if reply is not None:
+                    self.up = True
+            except Exception as e:
+                print(e)
+
         else : self.up = False
 
     def isUp(self):
