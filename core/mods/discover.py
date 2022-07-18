@@ -84,13 +84,12 @@ class Discover (Module):
         netrep = get_targetted()
         netrep = netrep if netrep != "" else ip_interface(all.conf.route.route()[2]+'/'+broadcastmask(all.conf.route.get_if_bcast(gateways()['default'][2][1])[0])).network
         if self.shell.valid_network(netrep):
-            target = self.shell.process_target(netrep)
+            target = self.shell.process_target(str(netrep))
             self.add_target(target)
             print(target)
             print('is our acutal target')
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'
-        print(netrep)
 
 
     def help(self):
