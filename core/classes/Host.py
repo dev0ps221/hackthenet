@@ -17,6 +17,7 @@ class Host:
     network = None
     ports = []
     targeted_ports = []
+    up = False
 
     def __str__(self):
         return f"HOST OBJECT AT {self.ip if self.ip else ' still an unknown ip address'}"
@@ -104,8 +105,14 @@ class Host:
             self.get_targeted_port(port).switch_status('unknown')
 
     def ping(self):
-
-
+        ip = self.get_ip()
+        if ip:
+            packet = IP(dst=ip, ttl=20)/ICMP()
+                reply = sr1(packet)
+                if ip in reply.src:
+                    self.up = True
+        else : self.up = False
+        
     def __init__(self,ip=None,mac=None):
         if ip : 
             self.ip = IpAddress(ip)

@@ -86,9 +86,9 @@ class Discover (Module):
         if self.shell.valid_network(netrep):
             target = self.shell.process_target(str(netrep))
             self.add_target(target)
-            print(target)
             for t in target.get_hosts():
                 t.ping()
+            
             # print('is our acutal target')
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'
