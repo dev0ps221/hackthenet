@@ -87,8 +87,10 @@ class Discover (Module):
             target = self.shell.process_target(str(netrep))
             self.add_target(target)
             for t in target.get_hosts():
-                t.ping()
-            
+                if t.get_ip() and t.get_ip().split('.')[-1] not in ['255','0']:
+                    print(t)
+                    t.ping()
+            print(target.get_active_hosts())
             # print('is our acutal target')
         else:
             return 'SoMEthIng WRoNg HapPeNed !!! ?'

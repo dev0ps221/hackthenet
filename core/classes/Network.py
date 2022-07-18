@@ -10,6 +10,10 @@ class Network:
     hosts = []
     targeted_hosts = []
 
+    def get_active_hosts(self):
+        return filter(lambda host:host.isUp(),get_hosts())
+
+
     def get_hosts(self,only_targeted=False):
         return self.targeted_hosts if only_targeted is not False else self.hosts
 

@@ -1,4 +1,4 @@
-from scapy.all import conf,IP,ICMP
+from scapy.all import conf,IP,ICMP,sr1
 conf.verb = 0
 
 if __name__ == 'Host':
@@ -107,12 +107,15 @@ class Host:
     def ping(self):
         ip = self.get_ip()
         if ip:
-            packet = IP(dst=ip, ttl=20)/ICMP()
-                reply = sr1(packet)
-                if ip in reply.src:
-                    self.up = True
+            packet = IP(dst=ip, ttl=2)/ICMP()
+            reply = sr1(packet)
+            if reply is not None:
+                 self.up = True
         else : self.up = False
-        
+
+    def isUp(self):
+        return self.up == True
+
     def __init__(self,ip=None,mac=None):
         if ip : 
             self.ip = IpAddress(ip)
