@@ -1,4 +1,5 @@
-
+from scapy.all import conf,IP,ICMP
+conf.verb = 0
 
 if __name__ == 'Host':
     from IpAddress import * 
@@ -101,6 +102,8 @@ class Host:
         self.get_port(port).switch_status('unknown')
         if self.get_targeted_port(port) is not None:
             self.get_targeted_port(port).switch_status('unknown')
+
+    def ping(self):
 
 
     def __init__(self,ip=None,mac=None):
