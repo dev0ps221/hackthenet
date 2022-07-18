@@ -108,8 +108,8 @@ class Host:
         ip = self.get_ip()
         if ip:
             try:
-                packet = IP(dst=ip, ttl=2)/ICMP()
-                reply = sr1(packet)
+                packet = IP(dst=ip)/ICMP()
+                reply = sr1(packet, timeout=1)
                 if reply is not None:
                     self.up = True
             except Exception as e:
